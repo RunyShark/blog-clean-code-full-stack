@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "tsnd --respawn --clear -r tsconfig-paths/register src/app.ts",
     "build": "rimraf ./dist && tsc",
-    "start": "npm run build && node dist/app.js"
+    "start": "npm run build && node dist/app.js",
+    "seed": "ts-node src/common/config/seed/seed.ts"
   },
   "keywords": [],
   "author": "",
