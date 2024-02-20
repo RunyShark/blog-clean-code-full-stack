@@ -13,7 +13,7 @@ export class UserEntity {
       author: string;
       content: string;
       imgUrl: string;
-      createdAt: Date;
+      dateOfPublication: string;
     }
   ) {}
 }
