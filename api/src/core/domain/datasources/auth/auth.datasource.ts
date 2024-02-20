@@ -5,7 +5,7 @@ import {
 } from '@domain/dtos/auth';
 import { UserEntity } from '@domain/entities';
 
-export abstract class AuthDomain {
+export abstract class AuthDataSource {
   abstract createAccount: (createUserDto: CreateUserDto) => Promise<UserEntity>;
   abstract login: (loginUserDto: LoginUserDto) => Promise<UserEntity>;
   abstract refreshToken: () => Promise<UserEntity>;
