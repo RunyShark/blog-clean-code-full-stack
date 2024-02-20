@@ -16,7 +16,7 @@ datasource db {
 model Profile {
   id String @id @default(uuid())
 
-  foto      String? @default("https://res.cloudinary.com/runyshark1/image/upload/v1705369994/6326055_lg32yd.png")
+  photo     String? @default("https://res.cloudinary.com/runyshark1/image/upload/v1705369994/6326055_lg32yd.png")
   firstName String
   lastName  String
 
