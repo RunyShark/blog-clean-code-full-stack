@@ -1,3 +1,4 @@
+import { encrypt } from '@common/adapter';
 import { prisma } from '@common/config';
 import { AuthDataSource } from '@domain/datasources/auth/auth.datasource';
 import {
@@ -15,7 +16,7 @@ export class AuthDataSourcePostgres implements AuthDataSource {
     const newAccount = await this.db.user.create({
       data: {
         email: createUserDto.email,
-        password: createUserDto.password,
+        password: encrypt.encrypt(createUserDto.password),
         profile: {
           create: {
             firstName: createUserDto.profile.firstName,
