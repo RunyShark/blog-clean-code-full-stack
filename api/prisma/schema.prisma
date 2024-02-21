@@ -30,9 +30,10 @@ model Profile {
 model User {
   id String @id @default(uuid())
 
-  email         String  @unique
-  password      String
-  accountActive Boolean @default(false)
+  email    String @unique
+  password String
+
+  accountActive Boolean? @default(false)
 
   profile Profile?
   Blog    Blog[]
