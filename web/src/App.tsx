@@ -1,5 +1,10 @@
-import React from 'react';
+import { Provider } from 'react-redux';
+import { store } from './core/presentation/store/store';
+import { RouterProvider } from 'react-router-dom';
+import { router } from './core/presentation/router';
 
-export const App = () => {
-  return <div className="bg-slate-700 w-full h-full">App</div>;
-};
+export const App = () => (
+  <Provider store={store}>
+    <RouterProvider router={router} />
+  </Provider>
+);
