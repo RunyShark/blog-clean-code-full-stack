@@ -8,27 +8,15 @@ export class CreateUserUseCase
   constructor(private readonly authRepository: AuthRepository) {}
 
   async execute(createUserDto: CreateUserDto): Promise<UserResponse> {
-    this.authRepository.createAccount(createUserDto);
+    const { accountActive, blog, email, id, password, profile } =
+      await this.authRepository.createAccount(createUserDto);
+
     return {
-      token: '',
+      token: 'test',
       account: {
-        firstName: '',
-        lastName: '',
-        email: '',
-        profile: {
-          firstNames: '',
-          lastNames: '',
-          photo: '',
-        },
-        blog: [
-          {
-            title: '',
-            author: '',
-            content: '',
-            imgUrl: '',
-            createdAt: '',
-          },
-        ],
+        email,
+        profile,
+        blog,
       },
     };
   }

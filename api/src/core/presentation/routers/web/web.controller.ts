@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import { WebService } from './web.service';
-import { BindMethods } from '@common/decorators/BindMethods';
-import { ApiResponse } from '@domain/rules';
+import { BindMethods } from '@common/decorators';
+
 @BindMethods
 export class WebController {
   constructor(private readonly webService: WebService) {}

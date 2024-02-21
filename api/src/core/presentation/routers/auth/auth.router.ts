@@ -8,10 +8,10 @@ export class AuthRouter {
   ) {}
 
   get routes(): Router {
-    this.router.get('/login', this.authController.login);
-    this.router.get('/register', this.authController.register);
+    this.router.post('/login', this.authController.login);
+    this.router.post('/register', this.authController.register);
     this.router.get('/refreshToken', this.authController.refreshToken);
-    this.router.get('/resetpassword', this.authController.resetpassword);
+    this.router.post('/resetpassword', this.authController.resetpassword);
 
     return this.router;
   }

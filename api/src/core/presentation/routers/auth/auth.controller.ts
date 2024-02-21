@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import { AuthService } from './auth.service';
-import { BindMethods } from '@common/decorators/BindMethods';
+import { BindMethods } from '@common/decorators';
 
 @BindMethods
 export class AuthController {

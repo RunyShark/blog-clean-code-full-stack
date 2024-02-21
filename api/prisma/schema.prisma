@@ -36,7 +36,7 @@ model User {
   accountActive Boolean? @default(false)
 
   profile Profile?
-  Blog    Blog[]
+  blog    Blog[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

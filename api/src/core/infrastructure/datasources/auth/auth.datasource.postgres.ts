@@ -6,13 +6,35 @@ import {
   ResetPasswordUserDto,
 } from '@domain/dtos/auth';
 import { UserEntity } from '@domain/entities';
+import { CustomError } from '@domain/errors/custom.error';
 import { AuthMapper } from '@infrastructure/mappers/auth/auth.mapper';
 
 export class AuthDataSourcePostgres implements AuthDataSource {
   constructor(private readonly db: typeof prisma) {}
   async createAccount(createUserDto: CreateUserDto): Promise<UserEntity> {
-    return AuthMapper.toEntity(createUserDto);
+    const newAccount = await this.db.user.create({
+      data: {
+        email: createUserDto.email,
+        password: createUserDto.password,
+        profile: {
+          create: {
+            firstName: createUserDto.profile.firstName,
+            lastName: createUserDto.profile.lastName,
+            photo: createUserDto.profile.photo,
+          },
+        },
+      },
+      include: {
+        profile: true,
+        blog: true,
+      },
+    });
+
+    if (!newAccount) CustomError.internal('Error creating account');
+
+    return AuthMapper.toEntity(newAccount);
   }
+
   async login(loginUserDto: LoginUserDto): Promise<UserEntity> {
     return AuthMapper.toEntity(loginUserDto);
   }

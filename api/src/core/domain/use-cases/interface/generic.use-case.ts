@@ -3,8 +3,8 @@ export interface GenericUseCase<Args, Response> {
 }
 
 interface Profile {
-  firstNames: string;
-  lastNames: string;
+  firstName: string;
+  lastName: string;
   photo: string;
 }
 
@@ -13,12 +13,10 @@ interface Blog {
   author: string;
   content: string;
   imgUrl: string;
-  createdAt: string;
+  dateOfPublication: string;
 }
 
 interface Account {
-  firstName: string;
-  lastName: string;
   email: string;
   profile: Profile;
   blog: Blog[];

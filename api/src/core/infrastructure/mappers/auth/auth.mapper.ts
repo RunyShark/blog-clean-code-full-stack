@@ -1,29 +1,21 @@
 import { UserEntity } from '@domain/entities';
-import { BlogEntity } from '@domain/entities/web/user.entity';
+import { CustomError } from '@domain/errors/custom.error';
 
 export class AuthMapper {
   static toEntity(blogDto: Record<string, any>): UserEntity {
-    const { title, author, content, imgUrl, createdAt, id } = blogDto;
+    const { id, email, password, accountActive, profile, blog } = blogDto;
 
-    if ([!title, !author, !content].includes(true))
-      throw new Error('Title, author and content are required');
+    if (!profile) throw CustomError.internal('Error creating account');
 
-    return new UserEntity(
-      ' public id: string,',
-      '  public email: string,',
-      '  public password: string,',
-      {
-        firstNames: 'string;',
-        lastNames: 'string;',
-        photo: ' string;',
-      },
-      {
-        title: ' string;',
-        author: ' string;',
-        content: ' string;',
-        imgUrl: 'string;',
-        dateOfPublication: 'tring;',
-      }
-    );
+    const { firstName, lastName } = profile;
+
+    if (
+      [!id, !email, !firstName, !lastName, !password, !!accountActive].includes(
+        true
+      )
+    )
+      throw CustomError.internal('Error creating account');
+
+    return new UserEntity(id, email, password, accountActive, profile, blog);
   }
 }

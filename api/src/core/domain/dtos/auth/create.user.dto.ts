@@ -2,7 +2,15 @@ import { Validators } from '@common/helper';
 import { CustomError } from '@domain/errors/custom.error';
 
 export class CreateUserDto {
-  private constructor() {}
+  private constructor(
+    public email: string,
+    public password: string,
+    public profile: {
+      firstName: string;
+      lastName: string;
+      photo: string;
+    }
+  ) {}
 
   static create(object: {
     [key: string]: any;
@@ -33,6 +41,6 @@ export class CreateUserDto {
     if (password.length < 6)
       return [CustomError.badRequest('invalid password')];
 
-    return [, new CreateUserDto()];
+    return [, new CreateUserDto(email, password, profile)];
   }
 }

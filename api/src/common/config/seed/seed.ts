@@ -19,7 +19,7 @@ import { prisma } from '../db/prisma.service';
               ...profile,
             },
           },
-          Blog: {
+          blog: {
             create: {
               ...blog,
             },

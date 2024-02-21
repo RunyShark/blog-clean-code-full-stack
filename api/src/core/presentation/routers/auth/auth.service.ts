@@ -9,10 +9,12 @@ import { ApiResponse } from '@domain/rules';
 import {
   CreateUserUseCase,
   LoginUserUseCase,
+  RefreshTokenUseCase,
   ResetPasswordUseCase,
 } from '@domain/use-cases';
 import { UserResponse } from '@domain/use-cases/interface';
-
+import { Catch } from '@common/decorators';
+@Catch
 export class AuthService {
   constructor(private readonly authRepository: AuthRepository) {}
 
@@ -49,9 +51,9 @@ export class AuthService {
 
     if (error) return this.errorHandle(400, error);
 
-    const refreshToken = await new CreateUserUseCase(
+    const refreshToken = await new RefreshTokenUseCase(
       this.authRepository
-    ).execute(refreshTokenUserDto!);
+    ).execute();
 
     return ApiResponse.successHandle<UserResponse>(refreshToken);
   }
