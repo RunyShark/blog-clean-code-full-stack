@@ -1,4 +1,5 @@
 import env from 'env-var';
+import 'dotenv/config';
 import { EnvVarInfrastructure } from './env-var.adapter.infrastructure';
 
 const envVarInfrastructure = new EnvVarInfrastructure(env);

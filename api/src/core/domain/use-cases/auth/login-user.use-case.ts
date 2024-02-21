@@ -12,12 +12,10 @@ export class LoginUserUseCase
     return {
       token: '',
       account: {
-        firstName: '',
-        lastName: '',
         email: '',
         profile: {
-          firstNames: '',
-          lastNames: '',
+          firstName: '',
+          lastName: '',
           photo: '',
         },
         blog: [
@@ -26,7 +24,7 @@ export class LoginUserUseCase
             author: '',
             content: '',
             imgUrl: '',
-            createdAt: '',
+            dateOfPublication: '',
           },
         ],
       },
