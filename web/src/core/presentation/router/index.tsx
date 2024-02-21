@@ -1,6 +1,13 @@
 import { createBrowserRouter, Navigate } from 'react-router-dom';
 import type { Router } from '@remix-run/router/dist/router';
 
+import {
+  HomePage,
+  LoginPage,
+  RegisterPage,
+  MainLayout,
+} from '../components/web/components';
+
 export const router: Router = createBrowserRouter([
   {
     path: '/',
@@ -8,14 +15,20 @@ export const router: Router = createBrowserRouter([
   },
   {
     path: '/auth',
-    element: <h1>auth</h1>,
+    element: <MainLayout />,
+    children: [
+      { index: true, element: <Navigate to="login" replace /> },
+      { path: 'register', element: <RegisterPage /> },
+      { path: 'login', element: <LoginPage /> },
+    ],
   },
   {
     path: '/home',
-    element: <h1>Home</h1>,
+    element: <MainLayout />,
+    children: [{ index: true, element: <HomePage /> }],
   },
   {
     path: '*',
-    element: <h1>page not found</h1>,
+    element: <MainLayout />,
   },
 ]);
