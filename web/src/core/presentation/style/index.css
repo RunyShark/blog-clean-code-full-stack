@@ -1,0 +1,13 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  .screen {
+    @apply max-w-screen-xl flex flex-wrap justify-between mx-auto w-full p-4 md:p-8;
+  }
+}
+
+body {
+  @apply bg-black text-white;
+}
