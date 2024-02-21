@@ -1,3 +1,4 @@
+import { date } from '@common/adapter';
 import { BlogEntity } from '@domain/entities/web/user.entity';
 
 export class BlogMapper {
@@ -13,7 +14,7 @@ export class BlogMapper {
       author,
       content,
       imgUrl,
-      'dateOfPublication'
+      date.DMY(createdAt)
     );
   }
 }
