@@ -4,10 +4,12 @@ import {
   RefreshTokenUserDto,
   ResetPasswordUserDto,
 } from '@domain/dtos/auth';
+import { AuthRepository } from '@domain/repositories';
 import { ApiResponse } from '@domain/rules';
-import { Request, Response } from 'express';
 
 export class AuthService {
+  constructor(private readonly authRepository: AuthRepository) {}
+
   async login(loginUserDto: LoginUserDto) {
     return ApiResponse.successHandle<{ test: string }>({ test: 'string' });
   }

@@ -1,1 +1,1 @@
-export * from './blog.repository';
+export * from './blog.repository.impl';
