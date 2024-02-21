@@ -2,6 +2,11 @@ import { initData } from './seedData';
 import { prisma } from '../db/prisma.service';
 
 (async () => {
+  if (process.env.NODE_ENV !== 'development') {
+    console.log('seed script is only for development environment');
+    process.exit(0);
+  }
+
   console.log('deleted all blogs! 🗑️');
 
   await prisma.blog.deleteMany();
