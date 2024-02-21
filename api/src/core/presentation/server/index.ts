@@ -28,7 +28,7 @@ export class Server {
   }
 
   private routerApp() {
-    this.server.use(new AppRoutes(this.router).routes);
+    this.server.use(new AppRoutes(this.router, {}).routes);
   }
 
   private listen(): void {
