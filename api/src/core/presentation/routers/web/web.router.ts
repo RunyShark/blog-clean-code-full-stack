@@ -9,7 +9,7 @@ export class WebRouter {
   ) {}
 
   get routes(): Router {
-    this.router.get(
+    this.router.post(
       '/create',
       [AuthMiddleware.validateJWT],
       this.authController.create

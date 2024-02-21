@@ -24,7 +24,7 @@ export class AuthMiddleware {
 
     if (!isValidToken) return res.status(401).json({ error: 'Invalid token' });
 
-    req.body.token = isValidToken.id;
+    req.body.userId = isValidToken.id;
 
     try {
       next();
