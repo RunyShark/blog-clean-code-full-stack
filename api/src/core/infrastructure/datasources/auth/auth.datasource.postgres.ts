@@ -66,6 +66,7 @@ export class AuthDataSourcePostgres implements AuthDataSource {
             content: true,
             imgUrl: true,
             author: true,
+            createdAt: true,
           },
         },
       },

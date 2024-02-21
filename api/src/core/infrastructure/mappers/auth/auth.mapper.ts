@@ -1,3 +1,4 @@
+import { date } from '@common/adapter';
 import { UserEntity } from '@domain/entities';
 import { CustomError } from '@domain/errors/custom.error';
 
@@ -16,6 +17,16 @@ export class AuthMapper {
     )
       throw CustomError.internal('Error creating account');
 
-    return new UserEntity(id, email, password, accountActive, profile, blog);
+    return new UserEntity(
+      id,
+      email,
+      password,
+      accountActive,
+      profile,
+      blog.map((b: Record<string, any>) => ({
+        ...b,
+        dateOfPublication: date.DMY(b.createdAt),
+      }))
+    );
   }
 }
