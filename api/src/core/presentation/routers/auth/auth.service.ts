@@ -31,6 +31,8 @@ export class AuthService {
       loginUserDto!
     );
 
+    if (!result) return this.errorHandle(400, 'Error login');
+
     return ApiResponse.successHandle<UserResponse>(result);
   }
 
@@ -42,6 +44,8 @@ export class AuthService {
     const newAccount = await new CreateUserUseCase(this.authRepository).execute(
       createUserDto!
     );
+
+    if (!newAccount) return this.errorHandle(400, 'Error register');
 
     return ApiResponse.successHandle<UserResponse>(newAccount);
   }
@@ -55,6 +59,8 @@ export class AuthService {
       this.authRepository
     ).execute();
 
+    if (!refreshToken) return this.errorHandle(400, 'Error refreshToken');
+
     return ApiResponse.successHandle<UserResponse>(refreshToken);
   }
 
@@ -66,6 +72,8 @@ export class AuthService {
     const newPassword = await new ResetPasswordUseCase(
       this.authRepository
     ).execute(resetPasswordUserDto!);
+
+    if (!newPassword) return this.errorHandle(400, 'Error resetpassword');
 
     return ApiResponse.successHandle<{ token: string }>(newPassword);
   }

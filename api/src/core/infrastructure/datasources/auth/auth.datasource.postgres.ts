@@ -30,7 +30,13 @@ export class AuthDataSourcePostgres implements AuthDataSource {
         },
       },
       include: {
-        profile: true,
+        profile: {
+          select: {
+            firstName: true,
+            lastName: true,
+            photo: true,
+          },
+        },
         blog: true,
       },
     });
@@ -46,8 +52,22 @@ export class AuthDataSourcePostgres implements AuthDataSource {
     const user = await this.db.user.findUnique({
       where: { email },
       include: {
-        profile: true,
-        blog: true,
+        profile: {
+          select: {
+            firstName: true,
+            lastName: true,
+            photo: true,
+          },
+        },
+        blog: {
+          select: {
+            id: true,
+            title: true,
+            content: true,
+            imgUrl: true,
+            author: true,
+          },
+        },
       },
     });
 
