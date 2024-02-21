@@ -1,21 +1,17 @@
 import { Router, Request, Response } from 'express';
+import { AuthController } from './auth.controller';
 
 export class AuthRouter {
-  constructor(private readonly router: Router) {}
+  constructor(
+    private readonly router: Router,
+    private readonly authController: AuthController
+  ) {}
 
   get routes(): Router {
-    this.router.get('/register', (req: Request, res: Response) =>
-      res.send('register')
-    );
-    this.router.get('/login', (req: Request, res: Response) =>
-      res.send('login')
-    );
-    this.router.get('/refreshToken', (req: Request, res: Response) =>
-      res.send('refreshToken')
-    );
-    this.router.get('/resetpassword', (req: Request, res: Response) =>
-      res.send('resetpassword')
-    );
+    this.router.get('/login', this.authController.login);
+    this.router.get('/register', this.authController.register);
+    this.router.get('/refreshToken', this.authController.refreshToken);
+    this.router.get('/resetpassword', this.authController.resetpassword);
 
     return this.router;
   }

@@ -1,6 +1,10 @@
 import { Router } from 'express';
 import { AuthRouter } from './auth';
 import { WebRouter } from './web';
+import { AuthController } from './auth/auth.controller';
+import { WebController } from './web/web.controller';
+import { AuthService } from './auth/auth.service';
+import { WebService } from './web/web.service';
 
 export enum ValidRoutes {
   auth = 'auth',
@@ -22,11 +26,19 @@ export class AppRoutes {
     this.apiV = apiV;
     this.apiPrefix = apiPrefix;
   }
+
   get routes(): Router {
     const baseApi = `/${this.apiPrefix}/${this.apiV}/`;
-    console.log('baseApi', baseApi);
-    const authRouter = new AuthRouter(this.router).routes;
-    const webRouter = new WebRouter(this.router).routes;
+
+    const authRouter = new AuthRouter(
+      this.router,
+      new AuthController(new AuthService())
+    ).routes;
+
+    const webRouter = new WebRouter(
+      this.router,
+      new WebController(new WebService())
+    ).routes;
 
     this.router.use(`${baseApi}${ValidRoutes.auth}`, authRouter);
     this.router.use(`${baseApi}${ValidRoutes.web}`, webRouter);
