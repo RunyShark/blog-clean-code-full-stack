@@ -1,19 +1,80 @@
-import { Request, Response } from 'express';
-
+import {
+  CreateUserDto,
+  LoginUserDto,
+  RefreshTokenUserDto,
+  ResetPasswordUserDto,
+} from '@domain/dtos/auth';
+import { AuthRepository } from '@domain/repositories';
+import { ApiResponse } from '@domain/rules';
+import {
+  CreateUserUseCase,
+  LoginUserUseCase,
+  RefreshTokenUseCase,
+  ResetPasswordUseCase,
+} from '@domain/use-cases';
+import { UserResponse } from '@domain/use-cases/interface';
+import { Catch } from '@common/decorators';
+@Catch
 export class AuthService {
-  async login() {
-    return 'login';
+  constructor(private readonly authRepository: AuthRepository) {}
+
+  private errorHandle<T>(state: number, error: T) {
+    return ApiResponse.errorHandle(state, error);
   }
 
-  async register() {
-    return 'register';
+  async login(dto: LoginUserDto) {
+    const [error, loginUserDto] = LoginUserDto.create(dto);
+
+    if (error) return this.errorHandle(400, error);
+
+    const result = await new LoginUserUseCase(this.authRepository).execute(
+      loginUserDto!
+    );
+
+    if (!result) return this.errorHandle(400, 'Error login');
+
+    return ApiResponse.successHandle<UserResponse>(result);
   }
 
-  async refreshToken() {
-    return 'refreshToken';
+  async register(dto: CreateUserDto) {
+    const [error, createUserDto] = CreateUserDto.create(dto);
+
+    if (error) return this.errorHandle(400, error);
+
+    const newAccount = await new CreateUserUseCase(this.authRepository).execute(
+      createUserDto!
+    );
+
+    if (!newAccount) return this.errorHandle(400, 'Error register');
+
+    return ApiResponse.successHandle<UserResponse>(newAccount);
   }
 
-  async resetpassword() {
-    return 'resetpassword';
+  async refreshToken(dto: RefreshTokenUserDto) {
+    const [error, refreshTokenUserDto] = RefreshTokenUserDto.create(dto);
+
+    if (error) return this.errorHandle(400, error);
+
+    const refreshToken = await new RefreshTokenUseCase(
+      this.authRepository
+    ).execute();
+
+    if (!refreshToken) return this.errorHandle(400, 'Error refreshToken');
+
+    return ApiResponse.successHandle<UserResponse>(refreshToken);
+  }
+
+  async resetpassword(dto: ResetPasswordUserDto) {
+    const [error, resetPasswordUserDto] = ResetPasswordUserDto.create(dto);
+
+    if (error) return this.errorHandle(400, error);
+
+    const newPassword = await new ResetPasswordUseCase(
+      this.authRepository
+    ).execute(resetPasswordUserDto!);
+
+    if (!newPassword) return this.errorHandle(400, 'Error resetpassword');
+
+    return ApiResponse.successHandle<{ token: string }>(newPassword);
   }
 }

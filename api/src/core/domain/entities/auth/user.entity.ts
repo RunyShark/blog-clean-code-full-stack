@@ -3,17 +3,20 @@ export class UserEntity {
     public id: string,
     public email: string,
     public password: string,
+    public accountActive: boolean,
     public profile: {
-      firstNames: string;
-      lastNames: string;
+      firstName: string;
+      lastName: string;
       photo: string;
     },
-    public Blog: {
-      title: string;
-      author: string;
-      content: string;
-      imgUrl: string;
-      dateOfPublication: string;
-    }
+    public blog: Blog[]
   ) {}
+}
+
+interface Blog {
+  title: string;
+  author: string;
+  content: string;
+  imgUrl: string;
+  dateOfPublication: string;
 }

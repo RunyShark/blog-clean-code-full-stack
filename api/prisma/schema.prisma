@@ -30,12 +30,13 @@ model Profile {
 model User {
   id String @id @default(uuid())
 
-  email         String  @unique
-  password      String
-  accountActive Boolean @default(false)
+  email    String @unique
+  password String
+
+  accountActive Boolean? @default(false)
 
   profile Profile?
-  Blog    Blog[]
+  blog    Blog[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -51,7 +52,7 @@ model Blog {
   imgUrl  String? @default("https://res.cloudinary.com/runyshark1/image/upload/v1708458804/no-photo-available_dwvbk0.png")
 
   user   User   @relation(fields: [userId], references: [id])
-  userId String @unique
+  userId String
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

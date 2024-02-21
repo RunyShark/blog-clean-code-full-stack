@@ -1,7 +1,4 @@
-export enum ValidPrototype {
-  constructor = 'constructor',
-  function = 'function',
-}
+import { ValidPrototype } from './interfaces';
 
 export function BindMethods<T extends new (...args: any[]) => any>(
   originalConstructor: T

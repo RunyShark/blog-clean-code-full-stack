@@ -1,16 +1,15 @@
 import { Request, Response } from 'express';
 import { WebService } from './web.service';
-import { BindMethods } from '@common/decorators/BindMethods';
+import { BindMethods } from '@common/decorators';
+
 @BindMethods
 export class WebController {
   constructor(private readonly webService: WebService) {}
   async create(req: Request, res: Response) {
-    const result = await this.webService.create(req, res);
-    res.send(result);
+    res.send(await this.webService.create(req.body));
   }
 
   async getBlogs(req: Request, res: Response) {
-    const result = await this.webService.getBlogs(req, res);
-    res.send(result);
+    res.send(await this.webService.getBlogs());
   }
 }

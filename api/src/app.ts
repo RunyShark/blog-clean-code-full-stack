@@ -1,11 +1,11 @@
 import { Server } from '@presentation/index';
-import { expressServer } from './common';
+import { envs, expressServer } from './common';
 
 (() => main())();
 
 async function main() {
   new Server({
-    port: 3000,
+    port: envs.port,
     server: expressServer,
   }).start();
 }
