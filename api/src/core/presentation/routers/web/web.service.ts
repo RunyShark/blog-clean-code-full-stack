@@ -1,11 +1,13 @@
+import { BlogDto } from '@domain/dtos/web/blog.dto';
+import { ApiResponse } from '@domain/rules';
 import { Request, Response } from 'express';
 
 export class WebService {
-  async create(req: Request, res: Response) {
-    return 'create';
+  async create(blogDto: BlogDto) {
+    return ApiResponse.successHandle<{ test: string }>({ test: 'string' });
   }
 
-  async getBlogs(req: Request, res: Response) {
-    return 'getBlogs';
+  async getBlogs() {
+    return ApiResponse.successHandle<{ test: string }>({ test: 'string' });
   }
 }

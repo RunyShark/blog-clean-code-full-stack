@@ -1,19 +1,26 @@
+import {
+  CreateUserDto,
+  LoginUserDto,
+  RefreshTokenUserDto,
+  ResetPasswordUserDto,
+} from '@domain/dtos/auth';
+import { ApiResponse } from '@domain/rules';
 import { Request, Response } from 'express';
 
 export class AuthService {
-  async login() {
-    return 'login';
+  async login(loginUserDto: LoginUserDto) {
+    return ApiResponse.successHandle<{ test: string }>({ test: 'string' });
   }
 
-  async register() {
-    return 'register';
+  async register(createUserDto: CreateUserDto) {
+    return ApiResponse.successHandle<{ test: string }>({ test: 'string' });
   }
 
-  async refreshToken() {
-    return 'refreshToken';
+  async refreshToken(RefreshTokenUserDto: RefreshTokenUserDto) {
+    return ApiResponse.successHandle<{ test: string }>({ test: 'string' });
   }
 
-  async resetpassword() {
-    return 'resetpassword';
+  async resetpassword(resetPasswordUserDto: ResetPasswordUserDto) {
+    return ApiResponse.successHandle<{ test: string }>({ test: 'string' });
   }
 }

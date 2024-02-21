@@ -5,24 +5,20 @@ import { BindMethods } from '@common/decorators/BindMethods';
 @BindMethods
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
-  async login(req: Request, res: Response) {
-    const result = await this.authService.login();
 
-    res.send(result);
+  async login(req: Request, res: Response) {
+    res.send(await this.authService.login(req.body));
   }
 
   async register(req: Request, res: Response) {
-    const result = await this.authService.register();
-    res.send(result);
+    res.send(await this.authService.register(req.body));
   }
 
   async refreshToken(req: Request, res: Response) {
-    const result = await this.authService.refreshToken();
-    res.send(result);
+    res.send(await this.authService.refreshToken(req.body));
   }
 
   async resetpassword(req: Request, res: Response) {
-    const result = await this.authService.resetpassword();
-    res.send(result);
+    res.send(await this.authService.resetpassword(req.body));
   }
 }
