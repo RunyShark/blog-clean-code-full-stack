@@ -2,6 +2,7 @@ import { Express, Router } from 'express';
 import { ServerAdapterDomain } from '@common/adapter';
 import { AppMiddleware } from '@presentation/middleware';
 import { AppRoutes } from '@presentation/routers/app.router';
+import { prisma } from '@common/config';
 
 interface ServerConfigurationOptionalProps {
   port: number;
@@ -28,7 +29,7 @@ export class Server {
   }
 
   private routerApp() {
-    this.server.use(new AppRoutes(this.router, {}).routes);
+    this.server.use(new AppRoutes(this.router, prisma, {}).routes);
   }
 
   private listen(): void {
