@@ -13,6 +13,7 @@ export class AuthRepositoryImpl implements AuthRepository {
   createAccount(createUserDto: CreateUserDto): Promise<UserEntity> {
     return this.authDataSource.createAccount(createUserDto);
   }
+
   login(loginUserDto: LoginUserDto): Promise<UserEntity> {
     return this.authDataSource.login(loginUserDto);
   }

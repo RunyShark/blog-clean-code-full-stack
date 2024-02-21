@@ -12,6 +12,7 @@ import {
 import { AuthDataSourcePostgres } from '@infrastructure/datasources/auth';
 import { prisma } from '../../../common/config/db/prisma.service';
 import { BlogDataSourcePostgres } from '@infrastructure/datasources/web/blog.datasource.postgres';
+import { encrypt } from '@common/adapter';
 
 export enum ValidRoutes {
   auth = 'auth',
@@ -43,7 +44,7 @@ export class AppRoutes {
       this.router,
       new AuthController(
         new AuthService(
-          new AuthRepositoryImpl(new AuthDataSourcePostgres(this.db))
+          new AuthRepositoryImpl(new AuthDataSourcePostgres(this.db, encrypt))
         )
       )
     ).routes;

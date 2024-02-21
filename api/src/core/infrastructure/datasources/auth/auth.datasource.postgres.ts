@@ -1,4 +1,4 @@
-import { encrypt } from '@common/adapter';
+import { EncryptAdapterDomain, encrypt } from '@common/adapter';
 import { prisma } from '@common/config';
 import { AuthDataSource } from '@domain/datasources/auth/auth.datasource';
 import {
@@ -11,12 +11,16 @@ import { CustomError } from '@domain/errors/custom.error';
 import { AuthMapper } from '@infrastructure/mappers/auth/auth.mapper';
 
 export class AuthDataSourcePostgres implements AuthDataSource {
-  constructor(private readonly db: typeof prisma) {}
+  constructor(
+    private readonly db: typeof prisma,
+    private readonly hash: EncryptAdapterDomain
+  ) {}
+
   async createAccount(createUserDto: CreateUserDto): Promise<UserEntity> {
     const newAccount = await this.db.user.create({
       data: {
         email: createUserDto.email,
-        password: encrypt.encrypt(createUserDto.password),
+        password: this.hash.encrypt(createUserDto.password),
         profile: {
           create: {
             firstName: createUserDto.profile.firstName,
@@ -37,8 +41,25 @@ export class AuthDataSourcePostgres implements AuthDataSource {
   }
 
   async login(loginUserDto: LoginUserDto): Promise<UserEntity> {
-    return AuthMapper.toEntity(loginUserDto);
+    const { email, password } = loginUserDto;
+
+    const user = await this.db.user.findUnique({
+      where: { email },
+      include: {
+        profile: true,
+        blog: true,
+      },
+    });
+
+    if (!user) throw CustomError.notFound('User not found');
+
+    const isValid = this.hash.compare(password, user.password);
+
+    if (!isValid) throw CustomError.badRequest('Invalid password');
+
+    return AuthMapper.toEntity(user);
   }
+
   async refreshToken(): Promise<UserEntity> {
     return AuthMapper.toEntity({});
   }
