@@ -22,7 +22,7 @@ export const HomePage = () => {
               {...blog}
               key={blog.id}
               onClick={() => currentBlock(blog.id)}
-              to={`/blog/${blog.title.split(' ').join('-')}`}
+              to={`blog/${blog.title.split(' ').join('-')}`}
             />
           ))}
         </div>
