@@ -60,6 +60,9 @@ export class AuthDataSourcePostgres implements AuthDataSource {
           },
         },
         blog: {
+          orderBy: {
+            createdAt: 'desc',
+          },
           select: {
             id: true,
             title: true,
@@ -93,6 +96,9 @@ export class AuthDataSourcePostgres implements AuthDataSource {
           },
         },
         blog: {
+          orderBy: {
+            createdAt: 'desc',
+          },
           select: {
             id: true,
             title: true,

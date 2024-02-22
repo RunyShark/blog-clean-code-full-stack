@@ -18,7 +18,14 @@ export const useFormBlog = <T extends FieldValues>({
     formState: { errors },
     reset,
   } = useForm<T>({
-    resolver: yupResolver(validations) as any, // Add 'as any' to bypass type checking
+    resolver: yupResolver(validations) as any,
+    // values: {
+    //   email: '',
+    //   password: '',
+    //   firstName: '',
+    //   lastName: '',
+    //   photo: '',
+    // } as unknown as <T>
   });
 
   const inputElement = useRef<HTMLInputElement>(null);
