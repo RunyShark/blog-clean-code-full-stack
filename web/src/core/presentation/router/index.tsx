@@ -6,6 +6,7 @@ import {
   LoginPage,
   RegisterPage,
   MainLayout,
+  Details,
 } from '../components/web/components';
 
 export const router: Router = createBrowserRouter([
@@ -25,7 +26,10 @@ export const router: Router = createBrowserRouter([
   {
     path: '/home',
     element: <MainLayout />,
-    children: [{ index: true, element: <HomePage /> }],
+    children: [
+      { index: true, element: <HomePage /> },
+      { path: 'blog/:id', element: <Details /> },
+    ],
   },
   {
     path: '*',

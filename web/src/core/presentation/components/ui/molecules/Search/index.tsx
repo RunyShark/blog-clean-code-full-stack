@@ -1,11 +1,22 @@
 import React, { useState } from 'react';
 import { Title } from '../../atoms';
 import { useAppDispatch, useAppSelector } from '../../../../store';
-import { IoSearch } from 'react-icons/io5';
+import { IoSearch, IoTrash } from 'react-icons/io5';
+import {
+  clearFilter,
+  filterBlog,
+} from '../../../../store/slices/web/web-slice';
+import { Button } from '../Button';
 
 export const Search = () => {
-  // const { isActiveFilter } = useAppSelector(({ web }) => web);
-  // const dispatch = useAppDispatch();
+  const { isActiveFilter } = useAppSelector(
+    ({
+      core: {
+        web: { blogDataControl },
+      },
+    }) => blogDataControl
+  );
+  const dispatch = useAppDispatch();
   const [input, setInput] = useState<string>('');
 
   const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -14,26 +25,24 @@ export const Search = () => {
 
   const handlerSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-
+    dispatch(filterBlog(input));
     setInput('');
   };
 
-  const clearFilters = () => {};
+  const clearFilters = () => {
+    dispatch(clearFilter());
+  };
 
   return (
     <form className="relative flex" onSubmit={handlerSubmit}>
       <div className="flex flex-col gap-4">
         <div className="flex flex-row gap-6">
           <Title fontSize="text-xl">Buscar blog</Title>
-          {/* {isActiveFilter && (
-            <Button
-              className="max-w-48 h-11"
-              iconLeft={<IoTrash size={25} />}
-              onClick={clearFilters}
-            >
+          {isActiveFilter && (
+            <Button iconLeft={<IoTrash size={25} />} onClick={clearFilters}>
               Eliminar filtros
             </Button>
-          )} */}
+          )}
         </div>
 
         <div className="relative">

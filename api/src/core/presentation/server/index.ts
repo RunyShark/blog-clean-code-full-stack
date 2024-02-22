@@ -1,8 +1,9 @@
 import { Express, Router } from 'express';
-import { ServerAdapterDomain } from '@common/adapter';
+import { ServerAdapterDomain, envs } from '@common/adapter';
 import { AppMiddleware } from '@presentation/middleware';
 import { AppRoutes } from '@presentation/routers/app.router';
 import { prisma } from '@common/config';
+import cors from 'cors';
 
 interface ServerConfigurationOptionalProps {
   port: number;
@@ -24,6 +25,17 @@ export class Server {
     this.port = port;
   }
 
+  private cors() {
+    this.server.use(cors());
+    this.server.use(
+      cors({
+        origin: envs.webs_urL,
+        methods: ['GET', 'POST', 'PUT', 'DELETE'],
+        allowedHeaders: ['Content-Type'],
+      })
+    );
+  }
+
   private middleware() {
     new AppMiddleware(this.server).init();
   }
@@ -39,6 +51,7 @@ export class Server {
   }
 
   async start(): Promise<void> {
+    this.cors();
     this.middleware();
     this.routerApp();
     this.listen();
