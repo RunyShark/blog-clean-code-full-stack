@@ -1,16 +1,17 @@
-import { envs } from '../../../../../common/adapters/env';
 import { blogFetcher } from '../../../../../common/adapters/http/blogApi.adapter';
 import { GetAllBlogsUseCase } from '../../../../domain/use-case';
 import { AppDispatch } from '../../store';
+import { setBlog } from './web-slice';
 
 class WebThunk {
   public initWeb(): (dispatch: AppDispatch) => Promise<void> {
-    return async () => {
-      console.log('::::::::initWeb::::::::', envs.api_url);
+    return async (dispatch: AppDispatch) => {
       const response = await new GetAllBlogsUseCase().execute({
         fetcher: blogFetcher,
         path: '/web/getBlogs',
       });
+
+      dispatch(setBlog(response));
     };
   }
 }

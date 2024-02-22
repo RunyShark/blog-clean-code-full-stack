@@ -10,13 +10,22 @@ interface ExecuteArgs {
   path: string;
 }
 
+interface ResponseApi {
+  data: BlogEntity[];
+  state: number;
+}
+
 export class GetAllBlogsUseCase
   implements GenericUseCase<ExecuteArgs, BlogEntity[]>
 {
   async execute({ fetcher, path }: ExecuteArgs): Promise<BlogEntity[]> {
     try {
-      const response = await fetcher.get(`${path}`);
-      return [BlogMapper.toEntity(response as Record<string, any>)];
+      const response = await fetcher.get<ResponseApi>(`${path}`);
+
+      if (response.state !== 200)
+        throw CustomError.internal('Error fetching blogs');
+
+      return response.data.map(BlogMapper.toEntity);
     } catch (error) {
       throw CustomError.internal('Error fetching blogs');
     }
