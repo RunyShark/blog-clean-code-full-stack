@@ -17,7 +17,19 @@ export class BlogDataSourcePostgres implements BlogDataSource {
   }
 
   async getBlogs(): Promise<BlogEntity[]> {
-    const blogs = await this.db.blog.findMany();
+    const blogs = await this.db.blog.findMany({
+      orderBy: { createdAt: 'desc' },
+      include: {
+        user: {
+          select: {
+            profile: {
+              select: { photo: true },
+            },
+          },
+        },
+      },
+    });
+
     return blogs.map(BlogMapper.toEntity);
   }
 }

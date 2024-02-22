@@ -5,6 +5,7 @@ export class BlogEntity {
     public author: string,
     public content: string,
     public imgUrl: string,
-    public dateOfPublication: string
+    public dateOfPublication: string,
+    public photoAuthor: string
   ) {}
 }

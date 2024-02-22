@@ -5,4 +5,5 @@ export interface BlogEntity {
   content: string;
   imgUrl: string;
   dateOfPublication: string;
+  photoAuthor: string;
 }

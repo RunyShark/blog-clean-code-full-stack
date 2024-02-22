@@ -32,6 +32,7 @@ const initialState: WebState = {
       content: '',
       imgUrl: '',
       dateOfPublication: '',
+      photoAuthor: '',
     },
   },
   httpControl: {

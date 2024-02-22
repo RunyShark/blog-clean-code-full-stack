@@ -9,6 +9,7 @@ export const Card: React.FC<BlogEntity> = ({
   author,
   content,
   imgUrl,
+  photoAuthor,
   dateOfPublication,
 }) => {
   return (
@@ -21,7 +22,7 @@ export const Card: React.FC<BlogEntity> = ({
         src={imgUrl}
         alt="imagen"
       />
-      <div className="absolute bottom-0 left-0 right-0 top-0 h-full w-full overflow-hidden bg-white bg-fixed opacity-0 transition duration-300 ease-in-out hover:opacity-5"></div>
+      <div className="absolute bottom-0 left-0 right-0 top-0 h-full w-full overflow-hidden bg-white bg-fixed opacity-0 transition duration-300 ease-in-out hover:opacity-5" />
       <div className="mt-6 px-5 flex flex-col gap-5">
         <div className="flex flex-row gap-7 items-center justify-between">
           <Title
@@ -39,7 +40,7 @@ export const Card: React.FC<BlogEntity> = ({
           <div className="flex flex-col">
             <div className="flex flex-row gap-4 items-center">
               <img
-                src="https://mdbcdn.b-cdn.net/img/new/avatars/1.webp"
+                src={photoAuthor}
                 className="w-12 rounded-full shadow-lg"
                 alt="Avatar"
               />
