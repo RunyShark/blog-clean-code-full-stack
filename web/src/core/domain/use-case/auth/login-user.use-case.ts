@@ -8,20 +8,15 @@ import { GenericUseCase, ResponseApiUser } from '../interface';
 
 interface ExecuteArgs {
   fetcher: HttpAdapter;
-  path: string;
   loginUserDto: LoginUserDto;
 }
 
 export class LoginUserUseCase
   implements GenericUseCase<ExecuteArgs, UserEntity>
 {
-  async execute({
-    loginUserDto,
-    fetcher,
-    path,
-  }: ExecuteArgs): Promise<UserEntity> {
+  async execute({ loginUserDto, fetcher }: ExecuteArgs): Promise<UserEntity> {
     try {
-      const response = await fetcher.post<ResponseApiUser>(`${path}`, {
+      const response = await fetcher.post<ResponseApiUser>('/auth/login', {
         ...loginUserDto,
       });
 

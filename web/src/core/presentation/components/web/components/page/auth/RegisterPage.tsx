@@ -1,13 +1,13 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { Button, Input, Text, Title, UploadPhoto } from '../../../../ui';
 
-import { useFormBlog } from '../../../../ui/organisms/AddNewBlog/hook/useFormBlog';
 import * as yup from 'yup';
 import { useState } from 'react';
 import { SubmitHandler } from 'react-hook-form';
 
 import { authThunk } from '../../../../../store/slices/auth/auth-thunk';
 import { useAppDispatch } from '../../../../../store';
+import { useFormBlog } from '../../../../../hooks';
 
 type Inputs = {
   email: string;

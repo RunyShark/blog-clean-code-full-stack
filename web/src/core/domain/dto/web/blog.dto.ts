@@ -1,5 +1,5 @@
 export interface BlogDto {
-  userId: string;
+  userId?: string;
   title: string;
   author: string;
   content: string;

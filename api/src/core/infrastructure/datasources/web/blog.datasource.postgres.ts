@@ -9,7 +9,18 @@ export class BlogDataSourcePostgres implements BlogDataSource {
   constructor(private readonly db: typeof prisma) {}
 
   async create(blogDto: BlogDto): Promise<BlogEntity> {
-    const blog = await this.db.blog.create({ data: blogDto });
+    const blog = await this.db.blog.create({
+      data: blogDto,
+      include: {
+        user: {
+          select: {
+            profile: {
+              select: { photo: true },
+            },
+          },
+        },
+      },
+    });
 
     if (!blog) throw CustomError.badRequest('Error creating blog');
 
