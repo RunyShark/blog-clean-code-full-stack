@@ -23,9 +23,7 @@ export class RegisterUserUseCase
       if (response.state !== 200)
         throw CustomError.internal('Error creating user');
 
-      const test = AuthMapper.toEntity(response);
-
-      return test;
+      return AuthMapper.toEntity(response);
     } catch (error) {
       throw CustomError.internal('Error creating user');
     }

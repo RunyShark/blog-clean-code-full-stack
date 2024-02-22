@@ -3,20 +3,33 @@ import { HttpAdapter } from '../../../../common/adapters/http/http.adapter';
 import { AuthMapper } from '../../../infrastructure/mappers/auth/auth.mapper';
 import { UserEntity } from '../../entities';
 import { CustomError } from '../../errors/custom.error';
-import { GenericUseCase } from '../interface';
+import { GenericUseCase, ResponseApiUser } from '../interface';
+
+interface ExecuteArgs {
+  fetcher: HttpAdapter;
+  token: string;
+}
 
 export class RefreshTokenUseCase
-  implements GenericUseCase<{ fetcher: HttpAdapter; path: string }, UserEntity>
+  implements GenericUseCase<ExecuteArgs, UserEntity>
 {
-  async execute(args: {
-    fetcher: HttpAdapter;
-    path: string;
-  }): Promise<UserEntity> {
+  async execute({ fetcher, token }: ExecuteArgs): Promise<UserEntity> {
     try {
-      const response = await args.fetcher.get(`/${args!.path}`);
-      return AuthMapper.toEntity(response as Record<string, any>);
+      const response = await fetcher.get<ResponseApiUser>(
+        '/auth/refreshToken',
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      if (response.state !== 200)
+        throw CustomError.internal('Error creating user');
+
+      return AuthMapper.toEntity(response);
     } catch (error) {
-      throw CustomError.internal('Error fetching blogs');
+      throw CustomError.internal('Error creating user');
     }
   }
 }

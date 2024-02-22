@@ -101,7 +101,7 @@ export const RegisterPage = () => {
 
                   <Input
                     label="Apellido"
-                    type="password"
+                    type="text"
                     error={errors.password?.message}
                     useForm={register('lastName')}
                   />

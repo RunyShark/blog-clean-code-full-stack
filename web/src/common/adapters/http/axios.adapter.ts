@@ -21,7 +21,9 @@ export class AxiosAdapter implements HttpAdapter {
 
   async get<T>(url: string, config?: AxiosRequestConfig): Promise<T> {
     try {
-      const { data } = await this.axiosInstance.get<T>(url, config);
+      const { data } = await this.axiosInstance.get<T>(url, {
+        ...config,
+      });
 
       return data;
     } catch (error) {
