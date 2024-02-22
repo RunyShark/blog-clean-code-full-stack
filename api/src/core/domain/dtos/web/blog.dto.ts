@@ -11,7 +11,7 @@ export class BlogDto {
 
   static create(object: Record<string, any>): [CustomError?, BlogDto?] {
     const { title, author, content, imgUrl, userId } = object;
-
+    console.log('error', object);
     if (!userId) return [CustomError.badRequest('User id is required')];
 
     if (!title) return [CustomError.badRequest('Title is required')];

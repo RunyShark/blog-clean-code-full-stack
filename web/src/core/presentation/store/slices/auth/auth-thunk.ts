@@ -21,7 +21,6 @@ class AuthThunk {
         dispatch(setLoadingState(true));
         const response = await new RegisterUserUseCase().execute({
           fetcher: blogFetcher,
-          path: '/auth/register',
           createUserDto,
         });
 
@@ -43,7 +42,6 @@ class AuthThunk {
         dispatch(setLoadingState(true));
         const response = await new LoginUserUseCase().execute({
           fetcher: blogFetcher,
-          path: '/auth/login',
           loginUserDto,
         });
 

@@ -30,7 +30,7 @@ export const Modal: React.FC<ModalProps> = ({
         onClick={handleOutsideClick}
       >
         <div
-          className={`bg-gray-200 rounded-lg shadow-lg p-5 m-4 max-w-sm max-h-full text-gray-800 ${className}`}
+          className={`bg-gray-200 rounded-lg shadow-lg p-5 m-4  max-h-full text-gray-800 ${className}`}
           ref={modalContentRef}
           onClick={(event) => event.stopPropagation()}
           style={style}
