@@ -5,9 +5,13 @@ import { usePhoto } from '../../../../hooks';
 
 interface UploadPhotoProps {
   onFileChange: (url: string) => void;
+  isLoading: (value: boolean) => void;
 }
 
-export const UploadPhoto: React.FC<UploadPhotoProps> = ({ onFileChange }) => {
+export const UploadPhoto: React.FC<UploadPhotoProps> = ({
+  onFileChange,
+  isLoading,
+}) => {
   const { updatePhoto, file, processPreview } = usePhoto();
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -19,7 +23,7 @@ export const UploadPhoto: React.FC<UploadPhotoProps> = ({ onFileChange }) => {
     const body = new FormData();
     body.append('upload_preset', 'next-blog');
     body.append('file', file);
-
+    isLoading(true);
     const response = await fetch(
       'https://api.cloudinary.com/v1_1/runyshark1/upload',
       {
@@ -29,7 +33,7 @@ export const UploadPhoto: React.FC<UploadPhotoProps> = ({ onFileChange }) => {
       }
     );
     const data = await response.json();
-
+    isLoading(false);
     onFileChange(data.url);
   };
 

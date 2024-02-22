@@ -4,30 +4,18 @@ import { CustomError } from '../../../domain/errors/custom.error';
 
 export class AuthMapper {
   static toEntity(blogDto: Record<string, any>): UserEntity {
-    const { id, email, password, accountActive, profile, blog } = blogDto;
+    const { data } = blogDto;
 
-    if (!profile) throw CustomError.internal('Error creating account');
+    if (!data) throw CustomError.internal('Data not found');
+    const { token, account } = data;
 
-    const { firstName, lastName } = profile;
+    if (!token) throw CustomError.internal('Token not found');
 
-    if (
-      [!id, !email, !firstName, !lastName, !password, !!accountActive].includes(
-        true
-      )
-    )
-      throw CustomError.internal('Error creating account');
+    if (!account) throw CustomError.internal('Account not found');
 
     return {
-      id,
-      email,
-      password,
-      accountActive,
-      profile: {
-        firstName,
-        lastName,
-        photo: profile.photo,
-      },
-      blog,
+      token,
+      account,
     };
   }
 }

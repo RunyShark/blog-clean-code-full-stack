@@ -87,8 +87,8 @@ export const webSlice = createSlice({
       state.blogDataControl.filteredBlogs = state.blogDataControl.blogs;
     },
 
-    setLoadingState: (state) => {
-      state.httpControl.loading = !state.httpControl.loading;
+    setLoadingState: (state, { payload }: PayloadAction<boolean>) => {
+      state.httpControl.loading = payload;
     },
 
     setErrorState: (state, { payload }: PayloadAction<string>) => {

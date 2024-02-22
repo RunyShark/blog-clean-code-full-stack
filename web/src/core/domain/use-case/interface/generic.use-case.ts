@@ -1,3 +1,5 @@
+import { UserEntity } from '../../entities';
+
 export interface GenericUseCase<Args, Response> {
   execute(args?: Args): Promise<Response>;
 }
@@ -25,4 +27,9 @@ interface Account {
 export interface UserResponse {
   token: string;
   account: Account;
+}
+
+export interface ResponseApiUser {
+  data: UserEntity;
+  state: number;
 }

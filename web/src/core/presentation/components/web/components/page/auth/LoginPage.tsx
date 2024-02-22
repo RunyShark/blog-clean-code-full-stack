@@ -1,8 +1,11 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Button, Input, Title } from '../../../../ui';
 
 import { useFormBlog } from '../../../../ui/organisms/AddNewBlog/hook/useFormBlog';
 import * as yup from 'yup';
+import { useAppDispatch } from '../../../../../store';
+import { SubmitHandler } from 'react-hook-form';
+import { authThunk } from '../../../../../store/slices/auth/auth-thunk';
 
 type Inputs = {
   email: string;
@@ -23,10 +26,20 @@ const schema = yup
   .required();
 
 export const LoginPage = () => {
-  const { loading, errors, register, handleSubmit, onSubmit } =
+  const dispatch = useAppDispatch();
+  const { loading, errors, register, handleSubmit, reset } =
     useFormBlog<Inputs>({
       validations: schema,
     });
+
+  const navigate = useNavigate();
+
+  const onSubmit: SubmitHandler<Inputs> = async (data) => {
+    dispatch(authThunk.loginThunk(data));
+
+    reset();
+    navigate('/');
+  };
 
   return (
     <section className="h-full overflow-y-hidden">
