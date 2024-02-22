@@ -4,7 +4,17 @@ import { Text, Title } from '../../atoms';
 import styles from './card.module.scss';
 import { BlogEntity } from '../../../../../domain/entities';
 
-export const Card: React.FC<BlogEntity> = ({
+interface OptionalProps {
+  onClick: () => void;
+}
+
+interface CardProps extends BlogEntity, Partial<OptionalProps> {
+  to: string;
+}
+
+export const Card: React.FC<CardProps> = ({
+  to,
+  onClick,
   title,
   author,
   content,
@@ -12,9 +22,12 @@ export const Card: React.FC<BlogEntity> = ({
   photoAuthor,
   dateOfPublication,
 }) => {
+  const handlerClick = () => onClick?.();
+
   return (
     <Link
-      to={`/${title.split(' ').join('-')}`}
+      onClick={handlerClick}
+      to={to}
       className="w-[90%] md:w-80 bg-[rgba(255,255,255,0.08)] h-[500px] rounded-xl transition-all duration-300 hover:scale-105 hover:cursor-pointer overflow-hidden relative"
     >
       <img
