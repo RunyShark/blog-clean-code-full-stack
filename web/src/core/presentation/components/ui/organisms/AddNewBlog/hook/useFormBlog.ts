@@ -1,69 +1,37 @@
-import * as yup from 'yup';
-import { AddNewBlogFormProps } from '../components';
-import { useRef, useState } from 'react';
+/* eslint-disable @typescript-eslint/no-explicit-any */
 
-import { usePhoto } from '../../../../../hooks';
-import { SubmitHandler, useForm } from 'react-hook-form';
+import { useRef } from 'react';
+
+import { FieldValues, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 
-type Inputs = {
-  title: string;
-  author: string;
-  content: string;
-};
-const schema = yup
-  .object({
-    title: yup
-      .string()
-      .min(3, 'El título debe tener por lo menos 3 caracteres')
-      .required('El título es requerido'),
-    author: yup
-      .string()
-      .min(3, 'El autor debe tener por lo menos 3 caracteres')
-      .required('El autor es requerido'),
-    content: yup
-      .string()
-      .min(10, 'El contenido debe tener por lo menos 10 caracteres')
-      .required('El contenido es requerido'),
-  })
-  .required();
+interface UseFormBlogProps {
+  validations: any;
+}
 
-export const useFormBlog = ({ onCloseModal }: AddNewBlogFormProps) => {
-  const [postBlogError, setPostBlogError] = useState('');
-  // const {
-  //   fetchControl: { loading },
-  // } = useAppSelector(({ web }) => web);
-  // const dispatch = useAppDispatch();
-  const { updatePhoto, file, processPreview, resetPhoto } = usePhoto();
+export const useFormBlog = <T extends FieldValues>({
+  validations,
+}: UseFormBlogProps) => {
   const {
     register,
     handleSubmit,
     formState: { errors },
     reset,
-  } = useForm<Inputs>({
-    resolver: yupResolver(schema),
+  } = useForm<T>({
+    resolver: yupResolver(validations) as any, // Add 'as any' to bypass type checking
   });
-
-  const onSubmit: SubmitHandler<Inputs> = async (data) => {
-    console.log(data);
-    reset();
-  };
 
   const inputElement = useRef<HTMLInputElement>(null);
 
   const upLoadPhoto = () => inputElement.current?.click();
 
   return {
-    postBlogError,
     loading: false,
     errors,
-    updatePhoto,
-    processPreview,
-    resetPhoto,
     upLoadPhoto,
     inputElement,
     register,
     handleSubmit,
-    onSubmit,
+    reset,
   };
 };
