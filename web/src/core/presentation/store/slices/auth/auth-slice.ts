@@ -1,5 +1,5 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
-import { UserEntity } from '../../../../domain/entities';
+import { BlogEntity, UserEntity } from '../../../../domain/entities';
 
 export enum AuthStatus {
   AUTHENTIC,
@@ -67,6 +67,11 @@ export const webSlice = createSlice({
       state.httpControl.error = false;
       state.httpControl.errorMessage = '';
     },
+
+    updateBlogDataUser: (state, { payload }: PayloadAction<BlogEntity>) => {
+      console.log('updateBlogDataUser', payload);
+      state.user.account.blog.push(payload);
+    },
   },
 });
 
@@ -76,6 +81,7 @@ export const {
   setErrorState,
   resetErrorState,
   logout,
+  updateBlogDataUser,
 } = webSlice.actions;
 
 export default webSlice.reducer;
