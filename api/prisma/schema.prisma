@@ -1,0 +1,59 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Profile {
+  id String @id @default(uuid())
+
+  photo     String? @default("https://res.cloudinary.com/runyshark1/image/upload/v1705369994/6326055_lg32yd.png")
+  firstName String
+  lastName  String
+
+  user   User   @relation(fields: [userId], references: [id])
+  userId String @unique
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model User {
+  id String @id @default(uuid())
+
+  email    String @unique
+  password String
+
+  accountActive Boolean? @default(false)
+
+  profile Profile?
+  blog    Blog[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Blog {
+  id String @id @default(uuid())
+
+  title  String
+  author String
+
+  content String  @db.VarChar(1500)
+  imgUrl  String? @default("https://res.cloudinary.com/runyshark1/image/upload/v1708458804/no-photo-available_dwvbk0.png")
+
+  user   User   @relation(fields: [userId], references: [id])
+  userId String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
