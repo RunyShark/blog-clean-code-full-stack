@@ -7,9 +7,11 @@ import {
 } from '@reduxjs/toolkit';
 import { REHYDRATE } from 'redux-persist';
 
-import { envs } from '../../../../common/adapters/env';
-import { AuthStatus, logout } from '../slices/auth/auth-slice';
+import { AuthStatus, logout, setSession } from '../slices/auth/auth-slice';
 import { setLoadingState } from '../slices/web/web-slice';
+
+import { RefreshTokenUseCase } from '../../../domain/use-case';
+import { blogFetcher } from '../../../../common/adapters/http/blogApi.adapter';
 
 export const refreshTokenAndRehydrateStateMiddleware: Middleware =
   ({ getState, dispatch }: MiddlewareAPI<Dispatch<AnyAction>>) =>
@@ -36,25 +38,24 @@ export const refreshTokenAndRehydrateStateMiddleware: Middleware =
 
       dispatch(setLoadingState(true));
 
-      // try {
-      //   const response = await fetch(`${envs.api_url}/auth/refresh-token`, {
-      //     method: 'GET',
-      //     headers: {
-      //       'Content-Type': 'application/json',
-      //       Authorization: `Bearer ${state.session.user.token}`,
-      //     },
-      //   });
-      //   console.log('state', response);
-      //   if (!response.ok) {
-      //     dispatch(logout());
-      //     return;
-      //   }
-      // } catch (error) {
-      //   dispatch(logout());
-      //   return;
-      // } finally {
-      //   dispatch(setLoadingState(false));
-      // }
+      try {
+        const response = await new RefreshTokenUseCase().execute({
+          fetcher: blogFetcher,
+          token: state.session.user.token,
+        });
+
+        if (!response) {
+          dispatch(logout());
+          return;
+        }
+
+        dispatch(setSession(response));
+      } catch (error) {
+        dispatch(logout());
+        return;
+      } finally {
+        dispatch(setLoadingState(false));
+      }
     }
 
     next(action);
