@@ -1,9 +1,15 @@
 import { Outlet } from 'react-router-dom';
 import { Footer, NavBar } from '../../../ui';
-import { envs } from '../../../../../../common/adapters/env-var';
+import { useEffect } from 'react';
+import { webThunk } from '../../../../store/slices/web/web-thunk';
+import { useAppDispatch } from '../../../../store';
 
 export const MainLayout = () => {
-  console.log('MainLayout', envs.api_url);
+  const dispatch = useAppDispatch();
+  useEffect(() => {
+    dispatch(webThunk.initWeb());
+  }, []);
+
   return (
     <div className="flex flex-col min-h-screen">
       <NavBar />

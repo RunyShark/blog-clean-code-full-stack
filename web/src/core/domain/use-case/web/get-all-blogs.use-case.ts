@@ -5,16 +5,17 @@ import { BlogEntity } from '../../entities';
 import { CustomError } from '../../errors/custom.error';
 import { GenericUseCase } from '../interface';
 
-export class getAllBlogsUseCase
-  implements
-    GenericUseCase<{ fetcher: HttpAdapter; path: string }, BlogEntity[]>
+interface ExecuteArgs {
+  fetcher: HttpAdapter;
+  path: string;
+}
+
+export class GetAllBlogsUseCase
+  implements GenericUseCase<ExecuteArgs, BlogEntity[]>
 {
-  async execute(args: {
-    fetcher: HttpAdapter;
-    path: string;
-  }): Promise<BlogEntity[]> {
+  async execute({ fetcher, path }: ExecuteArgs): Promise<BlogEntity[]> {
     try {
-      const response = await args.fetcher.get(`/${args!.path}`);
+      const response = await fetcher.get(`${path}`);
       return [BlogMapper.toEntity(response as Record<string, any>)];
     } catch (error) {
       throw CustomError.internal('Error fetching blogs');
