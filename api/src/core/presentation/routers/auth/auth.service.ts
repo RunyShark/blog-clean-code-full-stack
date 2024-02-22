@@ -57,7 +57,7 @@ export class AuthService {
 
     const refreshToken = await new RefreshTokenUseCase(
       this.authRepository
-    ).execute();
+    ).execute(refreshTokenUserDto!);
 
     if (!refreshToken) return this.errorHandle(400, 'Error refreshToken');
 

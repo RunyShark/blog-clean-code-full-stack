@@ -81,8 +81,33 @@ export class AuthDataSourcePostgres implements AuthDataSource {
     return AuthMapper.toEntity(user);
   }
 
-  async refreshToken(): Promise<UserEntity> {
-    return AuthMapper.toEntity({});
+  async refreshToken(userId: string): Promise<UserEntity> {
+    const user = await this.db.user.findUnique({
+      where: { id: userId },
+      include: {
+        profile: {
+          select: {
+            firstName: true,
+            lastName: true,
+            photo: true,
+          },
+        },
+        blog: {
+          select: {
+            id: true,
+            title: true,
+            content: true,
+            imgUrl: true,
+            author: true,
+            createdAt: true,
+          },
+        },
+      },
+    });
+
+    if (!user) throw CustomError.notFound('User not found');
+
+    return AuthMapper.toEntity(user);
   }
   async resetpassword(id: ResetPasswordUserDto): Promise<boolean> {
     return true;

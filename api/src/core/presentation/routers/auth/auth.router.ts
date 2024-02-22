@@ -1,5 +1,6 @@
 import { Router, Request, Response } from 'express';
 import { AuthController } from './auth.controller';
+import { AuthMiddleware } from '@presentation/middleware';
 
 export class AuthRouter {
   constructor(
@@ -10,7 +11,11 @@ export class AuthRouter {
   get routes(): Router {
     this.router.post('/login', this.authController.login);
     this.router.post('/register', this.authController.register);
-    this.router.get('/refreshToken', this.authController.refreshToken);
+    this.router.get(
+      '/refreshToken',
+      [AuthMiddleware.validateJWT],
+      this.authController.refreshToken
+    );
     this.router.post('/resetpassword', this.authController.resetpassword);
 
     return this.router;
