@@ -48,6 +48,7 @@ export const webSlice = createSlice({
   initialState,
   reducers: {
     setBlog: (state, { payload }: PayloadAction<BlogEntity[]>) => {
+      state.blogDataControl.isActiveFilter = false;
       state.blogDataControl.blogs = payload;
       state.blogDataControl.filteredBlogs = payload;
     },
@@ -102,6 +103,7 @@ export const webSlice = createSlice({
 
     clearFilter: (state) => {
       state.blogDataControl.filteredBlogs = state.blogDataControl.blogs;
+      state.blogDataControl.isActiveFilter = false;
     },
   },
 });
