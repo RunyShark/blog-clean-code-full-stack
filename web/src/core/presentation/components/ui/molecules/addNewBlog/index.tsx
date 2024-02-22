@@ -1,4 +1,4 @@
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { Button, Input, Text, UploadPhoto } from '../../../ui';
 
 import * as yup from 'yup';
@@ -32,7 +32,6 @@ export const AddNewBlog = () => {
   const navigate = useNavigate();
 
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
-    console.log(':::::::::onSubmit:::::::::::', data);
     dispatch(
       webThunk.createNewPost({
         title: data.title,
@@ -42,7 +41,7 @@ export const AddNewBlog = () => {
     );
 
     reset();
-    // navigate('/');
+    navigate('/');
   };
 
   return (

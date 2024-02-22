@@ -1,7 +1,7 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { UserEntity } from '../../../../domain/entities';
 
-enum AuthStatus {
+export enum AuthStatus {
   AUTHENTIC,
   NOT_AUTHENTIC,
 }
@@ -47,6 +47,13 @@ export const webSlice = createSlice({
       state.authStatus = AuthStatus.AUTHENTIC;
     },
 
+    logout: (state) => {
+      state.user = initialState.user;
+      state.authStatus = AuthStatus.NOT_AUTHENTIC;
+      state.httpControl.error = false;
+      state.httpControl.errorMessage = '';
+    },
+
     setLoadingState: (state, { payload }: PayloadAction<boolean>) => {
       state.httpControl.loading = payload;
     },
@@ -63,7 +70,12 @@ export const webSlice = createSlice({
   },
 });
 
-export const { setSession, setLoadingState, setErrorState, resetErrorState } =
-  webSlice.actions;
+export const {
+  setSession,
+  setLoadingState,
+  setErrorState,
+  resetErrorState,
+  logout,
+} = webSlice.actions;
 
 export default webSlice.reducer;

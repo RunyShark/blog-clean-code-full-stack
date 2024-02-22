@@ -10,6 +10,7 @@ import {
 import { configureStore } from '@reduxjs/toolkit';
 import { core } from './slices/reducers';
 import thunk from 'redux-thunk';
+import { refreshTokenAndRehydrateStateMiddleware } from './middleware/refreshTokenAndRehydrateStateMiddleware';
 
 export const store = configureStore({
   reducer: {
@@ -21,7 +22,9 @@ export const store = configureStore({
       serializableCheck: {
         ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
       },
-    }).concat(thunk),
+    })
+      .concat(thunk)
+      .concat(refreshTokenAndRehydrateStateMiddleware),
 });
 
 /**

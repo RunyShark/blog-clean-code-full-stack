@@ -40,6 +40,7 @@ class WebThunk {
           profile: { firstName, lastName },
         },
       } = getState().core.session.user;
+
       if (!token) {
         dispatch(setErrorState('Error token not found'));
         return;
