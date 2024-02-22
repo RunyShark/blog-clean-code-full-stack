@@ -29,7 +29,9 @@ export const Button: React.FC<ButtonProps> = ({
     <span
       className={`absolute inset-0 w-full h-full transition duration-300 ease-out opacity-0 bg-gradient-to-br 
         ${
-          variant === 'primary'
+          disabled
+            ? 'from-gray-400 via-gray-500 to-gray-600'
+            : variant === 'primary'
             ? 'opacity-100 from-pink-600 via-purple-700 to-blue-400'
             : 'group-hover:opacity-100 from-[#ff8a05] via-[#ff5478] to-[#ff00c6]'
         }`}

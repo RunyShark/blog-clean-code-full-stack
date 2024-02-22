@@ -1,22 +1,18 @@
+import { BlogEntity } from '../web';
+
 export interface UserEntity {
-  id: string;
-  email: string;
-  password: string;
-  accountActive: boolean;
-  profile: Profile;
-  blog: Blog[];
+  token: string;
+  account: Account;
 }
 
-interface Profile {
+export interface Account {
+  email: string;
+  profile: Profile;
+  blog: BlogEntity[];
+}
+
+export interface Profile {
   firstName: string;
   lastName: string;
   photo: string;
-}
-
-interface Blog {
-  title: string;
-  author: string;
-  content: string;
-  imgUrl: string;
-  dateOfPublication: string;
 }

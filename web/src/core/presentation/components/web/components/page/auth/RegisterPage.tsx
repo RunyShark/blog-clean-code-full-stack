@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Button, Input, Text, Title, UploadPhoto } from '../../../../ui';
 
 import { useFormBlog } from '../../../../ui/organisms/AddNewBlog/hook/useFormBlog';
@@ -35,10 +35,12 @@ const schema = yup
 export const RegisterPage = () => {
   const dispatch = useAppDispatch();
   const [photoProfile, setPhotoProfile] = useState<string>('');
+  const [isLoadingUploadPhoto, setIsLoadingUploadPhoto] = useState(false);
   const { loading, errors, register, handleSubmit, reset } =
     useFormBlog<Inputs>({
       validations: schema,
     });
+  const navigate = useNavigate();
 
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
     dispatch(
@@ -53,7 +55,8 @@ export const RegisterPage = () => {
       })
     );
 
-    // reset();
+    reset();
+    navigate('/');
   };
 
   return (
@@ -80,7 +83,10 @@ export const RegisterPage = () => {
                 <div className="space-y-5">
                   <div>
                     <Text className="mb-3">Foto de perfil</Text>
-                    <UploadPhoto onFileChange={setPhotoProfile} />
+                    <UploadPhoto
+                      onFileChange={setPhotoProfile}
+                      isLoading={setIsLoadingUploadPhoto}
+                    />
                     <Text className="mt-3" color="grey">
                       La foto es un campo opcional
                     </Text>
@@ -116,7 +122,11 @@ export const RegisterPage = () => {
               </div>
 
               <div className="p-4 flex flex-col justify-end gap-x-2 w-full gap-4">
-                <Button className="h-10" type="submit" disabled={loading}>
+                <Button
+                  className="h-10"
+                  type="submit"
+                  disabled={loading || isLoadingUploadPhoto}
+                >
                   Crear cuenta
                 </Button>
                 <div className="flex flex-row gap-2 items-center justify-center">

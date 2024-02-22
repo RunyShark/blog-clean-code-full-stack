@@ -4,17 +4,12 @@ import { AuthMapper } from '../../../infrastructure/mappers/auth/auth.mapper';
 import { CreateUserDto } from '../../dto/auth';
 import { UserEntity } from '../../entities';
 import { CustomError } from '../../errors/custom.error';
-import { GenericUseCase } from '../interface';
+import { GenericUseCase, ResponseApiUser } from '../interface';
 
 interface ExecuteArgs {
   fetcher: HttpAdapter;
   path: string;
   createUserDto: CreateUserDto;
-}
-
-interface ResponseApi {
-  data: UserEntity;
-  state: number;
 }
 
 export class RegisterUserUseCase
@@ -26,16 +21,16 @@ export class RegisterUserUseCase
     createUserDto,
   }: ExecuteArgs): Promise<UserEntity> {
     try {
-      const response = await fetcher.post<ResponseApi>(`${path}`, {
+      const response = await fetcher.post<ResponseApiUser>(`${path}`, {
         ...createUserDto,
       });
-
-      console.log('RegisterUserUseCase', response);
 
       if (response.state !== 200)
         throw CustomError.internal('Error creating user');
 
-      return AuthMapper.toEntity(response);
+      const test = AuthMapper.toEntity(response);
+
+      return test;
     } catch (error) {
       throw CustomError.internal('Error creating user');
     }
