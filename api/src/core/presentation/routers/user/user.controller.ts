@@ -12,6 +12,8 @@ export class UserController {
   }
 
   async delete(req: Request, res: Response) {
+    const { id } = req.params;
+    console.log(id);
     res.send(await this.userService.delete(req.body));
   }
 }
