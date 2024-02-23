@@ -7,10 +7,12 @@ import { yupResolver } from '@hookform/resolvers/yup';
 
 interface UseFormBlogProps {
   validations: any;
+  values?: any;
 }
 
 export const useFormBlog = <T extends FieldValues>({
   validations,
+  values,
 }: UseFormBlogProps) => {
   const {
     register,
@@ -19,13 +21,7 @@ export const useFormBlog = <T extends FieldValues>({
     reset,
   } = useForm<T>({
     resolver: yupResolver(validations) as any,
-    // values: {
-    //   email: '',
-    //   password: '',
-    //   firstName: '',
-    //   lastName: '',
-    //   photo: '',
-    // } as unknown as <T>
+    values,
   });
 
   const inputElement = useRef<HTMLInputElement>(null);
