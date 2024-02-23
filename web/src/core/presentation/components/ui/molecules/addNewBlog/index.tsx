@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useNavigate } from 'react-router-dom';
 import { Button, Input, Text, UploadPhoto } from '../../../ui';
 
@@ -8,12 +9,14 @@ import { SubmitHandler } from 'react-hook-form';
 import { useAppDispatch } from '../../../../store';
 import { webThunk } from '../../../../store/slices/web/web-thunk';
 import { useFormBlog } from '../../../../hooks';
+import { UpdateBlogDto } from '../../../../../domain/dto';
 
 type Inputs = {
   title: string;
   author: string;
   content: string;
 };
+
 const schema = yup
   .object({
     title: yup.string().required('El titulo es requerido'),
@@ -21,17 +24,41 @@ const schema = yup
   })
   .required();
 
-export const AddNewBlog = () => {
+interface OptionalProps {
+  photoURL: string;
+  initialValues: any;
+  textButton: string;
+  onChange: (value: Omit<UpdateBlogDto, 'blogId'>) => void;
+}
+
+interface AddNewBlogProps extends Partial<OptionalProps> {}
+
+export const AddNewBlog: React.FC<Partial<AddNewBlogProps>> = ({
+  photoURL = '',
+  initialValues,
+  textButton = 'Crear blog',
+  onChange,
+}) => {
   const dispatch = useAppDispatch();
-  const [photoProfile, setPhotoProfile] = useState<string>('');
+  const [photoProfile, setPhotoProfile] = useState<string>(photoURL);
   const [isLoadingUploadPhoto, setIsLoadingUploadPhoto] = useState(false);
   const { loading, errors, register, handleSubmit, reset } =
     useFormBlog<Inputs>({
       validations: schema,
+      values: initialValues,
     });
   const navigate = useNavigate();
 
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
+    if (onChange) {
+      onChange({
+        title: data.title,
+        content: data.content,
+        imgUrl: photoProfile,
+      });
+      return;
+    }
+
     dispatch(
       webThunk.createNewPost({
         title: data.title,
@@ -41,7 +68,8 @@ export const AddNewBlog = () => {
     );
 
     reset();
-    navigate('/');
+
+    navigate(`/home/blog/${data.title.split(' ').join('-')}`);
   };
 
   return (
@@ -56,6 +84,7 @@ export const AddNewBlog = () => {
               <div>
                 <Text className="mb-3">Foto del blog</Text>
                 <UploadPhoto
+                  photoURL={photoURL}
                   onFileChange={setPhotoProfile}
                   isLoading={setIsLoadingUploadPhoto}
                 />
@@ -88,7 +117,7 @@ export const AddNewBlog = () => {
               type="submit"
               disabled={loading || isLoadingUploadPhoto}
             >
-              Crear blog
+              {textButton}
             </Button>
           </div>
         </form>

@@ -11,6 +11,7 @@ interface BlogDataControl {
   filteredBlogs: BlogEntity[];
   currentBlog: BlogEntity;
   isActiveFilter: boolean;
+  isNewBlog: boolean;
 }
 
 interface HttpControl {
@@ -20,20 +21,25 @@ interface HttpControl {
   internetConnection: boolean;
 }
 
+const currentBlog = {
+  id: '',
+  title: '',
+  author: '',
+  content: '',
+  imgUrl: '',
+  dateOfPublication: '',
+  photoAuthor: '',
+};
+
 const initialState: WebState = {
   blogDataControl: {
     blogs: [],
     filteredBlogs: [],
     isActiveFilter: false,
     currentBlog: {
-      id: '',
-      title: '',
-      author: '',
-      content: '',
-      imgUrl: '',
-      dateOfPublication: '',
-      photoAuthor: '',
+      ...currentBlog,
     },
+    isNewBlog: false,
   },
   httpControl: {
     loading: false,
@@ -51,6 +57,8 @@ export const webSlice = createSlice({
       state.blogDataControl.isActiveFilter = false;
       state.blogDataControl.blogs = payload;
       state.blogDataControl.filteredBlogs = payload;
+      state.blogDataControl.currentBlog = currentBlog;
+      state.blogDataControl.isNewBlog = false;
     },
 
     getByIdBlog: (state, { payload }: PayloadAction<string>) => {
@@ -87,6 +95,14 @@ export const webSlice = createSlice({
       state.blogDataControl.filteredBlogs = state.blogDataControl.blogs;
     },
 
+    updateBlogById: (state, { payload }: PayloadAction<BlogEntity>) => {
+      state.blogDataControl.blogs = state.blogDataControl.blogs.map((blog) =>
+        blog.id === payload.id ? payload : blog
+      );
+      state.blogDataControl.filteredBlogs = state.blogDataControl.blogs;
+      state.blogDataControl.currentBlog = payload;
+    },
+
     setLoadingState: (state, { payload }: PayloadAction<boolean>) => {
       state.httpControl.loading = payload;
     },
@@ -105,6 +121,17 @@ export const webSlice = createSlice({
       state.blogDataControl.filteredBlogs = state.blogDataControl.blogs;
       state.blogDataControl.isActiveFilter = false;
     },
+
+    deleteBlog: (state, { payload }: PayloadAction<string>) => {
+      state.blogDataControl.blogs = state.blogDataControl.blogs.filter(
+        (blog) => blog.id !== payload
+      );
+      state.blogDataControl.filteredBlogs = state.blogDataControl.blogs;
+    },
+
+    setNewBlog: (state) => {
+      state.blogDataControl.isNewBlog = true;
+    },
   },
 });
 
@@ -118,6 +145,9 @@ export const {
   setInternetConnectionState,
   getByIdBlog,
   clearFilter,
+  deleteBlog,
+  updateBlogById,
+  setNewBlog,
 } = webSlice.actions;
 
 export default webSlice.reducer;

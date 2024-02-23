@@ -15,7 +15,7 @@ export class UserRouter {
       this.userController.update
     );
     this.router.delete(
-      '/account',
+      '/account/:userId',
       [AuthMiddleware.validateJWT],
       this.userController.delete
     );

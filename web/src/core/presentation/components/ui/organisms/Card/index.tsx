@@ -1,5 +1,5 @@
 import { IoArrowForwardOutline } from 'react-icons/io5';
-import { Link } from 'react-router-dom';
+
 import { Text, Title } from '../../atoms';
 import styles from './card.module.scss';
 import { BlogEntity } from '../../../../../domain/entities';
@@ -12,12 +12,9 @@ interface OptionalProps {
 interface CardProps
   extends BlogEntity,
     Partial<OptionalProps>,
-    Partial<Omit<BaseComponentProps, 'children' | 'id'>> {
-  to: string;
-}
+    Partial<Omit<BaseComponentProps, 'children' | 'id'>> {}
 
 export const Card: React.FC<CardProps> = ({
-  to,
   onClick,
   title,
   author,
@@ -31,11 +28,10 @@ export const Card: React.FC<CardProps> = ({
   const handlerClick = () => onClick?.();
 
   return (
-    <Link
+    <div
       onClick={handlerClick}
-      to={to}
       style={style}
-      className={`w-[90%] md:w-80 bg-[rgba(255,255,255,0.08)] h-[500px] rounded-xl transition-all duration-300 hover:scale-105 hover:cursor-pointer overflow-hidden relative ${className}`}
+      className={`w-[90%] md:w-80 bg-[rgba(255,255,255,0.08)] h-[500px] rounded-xl transition-all duration-300 hover:cursor-pointer overflow-hidden relative ${className}`}
     >
       <img
         className="rounded-t-xl w-full h-56 object-cover "
@@ -74,6 +70,6 @@ export const Card: React.FC<CardProps> = ({
           </div>
         </div>
       </div>
-    </Link>
+    </div>
   );
 };
