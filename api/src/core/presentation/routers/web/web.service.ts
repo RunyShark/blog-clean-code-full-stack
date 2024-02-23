@@ -38,6 +38,7 @@ export class WebService {
   }
 
   async update(dto: UpdateBlogDto) {
+    console.log('updateBlogDto', dto);
     const [error, updateBlogDto] = UpdateBlogDto.create(dto);
 
     if (error) return this.errorHandle(400, error);
@@ -52,6 +53,7 @@ export class WebService {
   }
 
   async delete(dto: DeleteBlogDto) {
+    console.log('deleteBlogDto', dto);
     const [error, deleteBlogDto] = DeleteBlogDto.create(dto);
 
     if (error) return this.errorHandle(400, error);

@@ -10,12 +10,12 @@ export class UserRouter {
 
   get routes(): Router {
     this.router.put(
-      '/',
+      '/account',
       [AuthMiddleware.validateJWT],
       this.userController.update
     );
     this.router.delete(
-      '/',
+      '/account',
       [AuthMiddleware.validateJWT],
       this.userController.delete
     );

@@ -13,7 +13,7 @@ export class UserDataSourcePostgres implements UserDataSource {
   ) {}
 
   private userExist(userId: string) {
-    return this.db.user.findUnique({
+    return this.db.user.findFirst({
       where: { id: userId },
     });
   }
@@ -57,6 +57,14 @@ export class UserDataSourcePostgres implements UserDataSource {
     const userExist = await this.userExist(deleteUserDto.userId);
 
     if (!userExist) throw CustomError.notFound('User not found');
+
+    await prisma.blog.deleteMany({
+      where: { userId: deleteUserDto.userId },
+    });
+
+    await prisma.profile.deleteMany({
+      where: { userId: deleteUserDto.userId },
+    });
 
     const deleteUser = await this.db.user.delete({
       where: { id: deleteUserDto.userId },

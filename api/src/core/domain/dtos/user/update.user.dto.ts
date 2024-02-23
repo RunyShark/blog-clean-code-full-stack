@@ -17,6 +17,6 @@ export class UpdateUserDto {
 
     if (!userId) return [CustomError.badRequest('User id is required')];
 
-    return [, new UpdateUserDto(email, password, profile)];
+    return [, new UpdateUserDto(userId, email, password, profile)];
   }
 }
