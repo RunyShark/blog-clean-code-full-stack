@@ -6,7 +6,6 @@ import { useAppDispatch } from '../../../../../store';
 import { SubmitHandler } from 'react-hook-form';
 import { authThunk } from '../../../../../store/slices/auth/auth-thunk';
 import { useFormBlog, useSlider } from '../../../../../hooks';
-import { useEffect, useState } from 'react';
 import { gifs } from './data';
 
 type Inputs = {
@@ -42,7 +41,7 @@ export const LoginPage = () => {
     dispatch(authThunk.loginThunk(data));
 
     reset();
-    navigate('/');
+    navigate('/profile');
   };
 
   return (

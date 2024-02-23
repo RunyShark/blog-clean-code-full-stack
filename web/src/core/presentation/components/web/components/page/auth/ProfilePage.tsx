@@ -8,6 +8,7 @@ import { AddNewBlog } from '../../../../ui/molecules/addNewBlog';
 import { InformationUserAuth } from '../../../../ui/molecules/InformationUserAuth';
 import { UserPost, UserProfileHeader } from './components';
 import * as yup from 'yup';
+import { authThunk } from '../../../../../store/slices/auth/auth-thunk';
 
 type Inputs = {
   email: string;
@@ -19,14 +20,6 @@ type Inputs = {
 
 const schema = yup
   .object({
-    email: yup
-      .string()
-      .email('El correo electronico no es valido')
-      .required('El correo electronico es requerido'),
-    password: yup
-      .string()
-      .required('La contraseña es requerida')
-      .min(6, 'La contraseña debe tener al menos 6 caracteres'),
     firstName: yup.string().required('El nombre es requerido'),
     lastName: yup.string().required('El apellido es requerido'),
   })
@@ -38,7 +31,7 @@ export const ProfilePage = () => {
       session: {
         user: {
           token,
-          account: { blog, email, profile },
+          account: { blog, profile },
         },
       },
     },
@@ -52,7 +45,6 @@ export const ProfilePage = () => {
     useFormBlog<Inputs>({
       validations: schema,
       values: {
-        email,
         firstName: profile.firstName,
         lastName: profile.lastName,
       },
@@ -61,25 +53,22 @@ export const ProfilePage = () => {
   const handlerCloseModal = () => setIsOpen(false);
 
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
-    console.log('data', data, photoProfile);
-    // dispatch(
-    //   authThunk.registerThunk({
-    //     email: data.email,
-    //     password: data.password,
-    //     profile: {
-    //       firstName: data.firstName,
-    //       lastName: data.lastName,
-    //       photo: photoProfile,
-    //     },
-    //   })
-    // );
+    dispatch(
+      authThunk.updateThunk({
+        email: data.email,
+        password: data.password,
+        profile: {
+          firstName: data.firstName,
+          lastName: data.lastName,
+          photo: photoProfile,
+        },
+      })
+    );
 
     reset();
   };
 
-  const deleteAccount = () => {
-    console.log('delete account');
-  };
+  const deleteAccount = () => dispatch(authThunk.deleteThunk());
 
   const addNewPost = () => {
     setIsOpen(true);
@@ -122,21 +111,11 @@ export const ProfilePage = () => {
                   <Input
                     label="Apellido"
                     type="text"
-                    // value={profile.lastName}
                     error={errors.lastName?.message}
                     useForm={register('lastName')}
                   />
                 </div>
 
-                <div className="sm:col-span-4">
-                  <Input
-                    label="Correo electronico"
-                    // value={email}
-                    type="email"
-                    error={errors.email?.message}
-                    useForm={register('email')}
-                  />
-                </div>
                 <div className="flex flex-col justify-end gap-x-2 w-full gap-4">
                   <Button
                     className="h-10"

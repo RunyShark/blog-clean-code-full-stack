@@ -18,11 +18,6 @@ body {
 
 ::-webkit-scrollbar-thumb {
   background: #a649f8;
-
-  &:active {
-    background-color: #a649f8;
-  }
-
   border-radius: 1rem;
   -webkit-border-radius: 1rem;
   -moz-border-radius: 1rem;
