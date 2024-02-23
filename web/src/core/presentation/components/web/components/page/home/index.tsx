@@ -19,6 +19,7 @@ import { IoClose } from 'react-icons/io5';
 import { InformationUserAuth } from '../../../../ui/molecules/InformationUserAuth';
 import nofilters from '../../../../../../../common/json/nofilters.json';
 import { webThunk } from '../../../../../store/slices/web/web-thunk';
+import { BlurColor2 } from '../../../../ui/atoms/BlurColor';
 
 export const HomePage = () => {
   const {
@@ -41,16 +42,14 @@ export const HomePage = () => {
 
   const currentBlock = (id: string) => dispatch(getByIdBlog(id));
 
-  const addNewPost = () => {
-    console.log('addNewPost', token);
-    setIsOpen(true);
-  };
+  const addNewPost = () => setIsOpen(true);
 
   const handlerCloseModal = () => setIsOpen(false);
 
   return (
     <section>
       <Header />
+      <BlurColor2 />
       <article className="screen flex flex-col gap-20">
         <div className="flex w-full justify-between">
           <Search />

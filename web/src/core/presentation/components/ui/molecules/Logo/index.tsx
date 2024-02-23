@@ -11,7 +11,7 @@ export const Logo: React.FC<LogoProps> = ({ title }) => (
   <Link to={'/'} className="flex items-center space-x-3 rtl:space-x-reverse">
     <img
       src={
-        'https://res.cloudinary.com/runyshark1/image/upload/v1707709938/4XCW_utukec.gif'
+        'https://res.cloudinary.com/runyshark1/image/upload/v1708658465/ReactJS_u4qmoq.gif'
       }
       className="object-contain w-20 h-14 object-center"
       alt="logo"

@@ -1,10 +1,12 @@
 import { blogFetcher } from '../../../../../common/adapters/http/blogApi.adapter';
+
 import { CreateUserDto, LoginUserDto } from '../../../../domain/dto/auth';
 import {
   LoginUserUseCase,
   RegisterUserUseCase,
 } from '../../../../domain/use-case';
-import { AppDispatch } from '../../store';
+import { DeleteUserUseCase } from '../../../../domain/use-case/user';
+import { AppDispatch, RootState } from '../../store';
 import {
   resetErrorState,
   setErrorState,
@@ -43,6 +45,29 @@ class AuthThunk {
         const response = await new LoginUserUseCase().execute({
           fetcher: blogFetcher,
           loginUserDto,
+        });
+
+        dispatch(setSession(response));
+        dispatch(resetErrorState());
+      } catch (error) {
+        dispatch(setErrorState('Error al iniciar sesión: ' + error));
+      } finally {
+        dispatch(setLoadingState(false));
+      }
+    };
+  }
+
+  public deleteThunk(): (
+    dispatch: AppDispatch,
+    getState: () => RootState
+  ) => Promise<void> {
+    return async (dispatch: AppDispatch, getState: () => RootState) => {
+      const { token } = getState().core.session.user;
+      try {
+        dispatch(setLoadingState(true));
+        const response = await new DeleteUserUseCase().execute({
+          fetcher: blogFetcher,
+          token,
         });
 
         dispatch(setSession(response));

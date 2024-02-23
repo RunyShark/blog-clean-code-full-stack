@@ -9,6 +9,7 @@ import { useState } from 'react';
 import { IoClose } from 'react-icons/io5';
 import { AddNewBlog } from '../../../../../ui/molecules/addNewBlog';
 import { getByIdBlog } from '../../../../../../store/slices/web/web-slice';
+import { Link } from 'react-router-dom';
 
 interface UserPostProps {
   onClick: () => void;
@@ -26,9 +27,11 @@ export const UserPost: React.FC<UserPostProps> = ({ onClick, blog }) => {
 
   const handlerDelete = (id: DeleteBlogDto) => dispatch(webThunk.delete(id));
 
+  const setByIdBlog = (id: string) => dispatch(getByIdBlog(id));
+
   const editBlog = (id: string) => {
     setIsOpen(true);
-    dispatch(getByIdBlog(id));
+    setByIdBlog(id);
   };
 
   const handlerCloseModal = () => setIsOpen(false);
@@ -44,8 +47,8 @@ export const UserPost: React.FC<UserPostProps> = ({ onClick, blog }) => {
 
   return (
     <>
-      <div className="flex flex-col gap-40">
-        <div className="space-y-12 w-full">
+      <div className="flex flex-col gap-20">
+        <div className="w-full">
           <UserProfileHeader
             title={'Blogs'}
             description={'Todos tus blogs en un solo lugar'}
@@ -58,10 +61,16 @@ export const UserPost: React.FC<UserPostProps> = ({ onClick, blog }) => {
 
         <div className="flex h-full ">
           {blog.length ? (
-            <div className="flex overflow-x-auto space-x-12 overflow-y-hidden">
+            <div className="flex overflow-x-auto space-x-12 overflow-y-hidden ">
               {blog.map((blog) => (
-                <div className="flex flex-col items-center" key={blog.id}>
-                  <Card {...blog} className="shrink-0 scale-90" />
+                <div className="flex flex-col items-center mb-20" key={blog.id}>
+                  <Link
+                    to={`/home/blog/${blog.title.split(' ').join('-')}`}
+                    key={blog.id}
+                    onClick={() => editBlog(blog.id)}
+                  >
+                    <Card {...blog} className="shrink-0 scale-90" />
+                  </Link>
                   <div className="flex flex-row  w-[85%] items-end gap-5 bottom-1">
                     <Button variant="primary" onClick={() => editBlog(blog.id)}>
                       Editar

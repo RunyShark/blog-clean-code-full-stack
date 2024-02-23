@@ -11,6 +11,7 @@ interface BlogDataControl {
   filteredBlogs: BlogEntity[];
   currentBlog: BlogEntity;
   isActiveFilter: boolean;
+  isNewBlog: boolean;
 }
 
 interface HttpControl {
@@ -20,20 +21,25 @@ interface HttpControl {
   internetConnection: boolean;
 }
 
+const currentBlog = {
+  id: '',
+  title: '',
+  author: '',
+  content: '',
+  imgUrl: '',
+  dateOfPublication: '',
+  photoAuthor: '',
+};
+
 const initialState: WebState = {
   blogDataControl: {
     blogs: [],
     filteredBlogs: [],
     isActiveFilter: false,
     currentBlog: {
-      id: '',
-      title: '',
-      author: '',
-      content: '',
-      imgUrl: '',
-      dateOfPublication: '',
-      photoAuthor: '',
+      ...currentBlog,
     },
+    isNewBlog: false,
   },
   httpControl: {
     loading: false,
@@ -51,6 +57,8 @@ export const webSlice = createSlice({
       state.blogDataControl.isActiveFilter = false;
       state.blogDataControl.blogs = payload;
       state.blogDataControl.filteredBlogs = payload;
+      state.blogDataControl.currentBlog = currentBlog;
+      state.blogDataControl.isNewBlog = false;
     },
 
     getByIdBlog: (state, { payload }: PayloadAction<string>) => {
@@ -120,6 +128,10 @@ export const webSlice = createSlice({
       );
       state.blogDataControl.filteredBlogs = state.blogDataControl.blogs;
     },
+
+    setNewBlog: (state) => {
+      state.blogDataControl.isNewBlog = true;
+    },
   },
 });
 
@@ -135,6 +147,7 @@ export const {
   clearFilter,
   deleteBlog,
   updateBlogById,
+  setNewBlog,
 } = webSlice.actions;
 
 export default webSlice.reducer;

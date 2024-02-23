@@ -68,7 +68,8 @@ export const AddNewBlog: React.FC<Partial<AddNewBlogProps>> = ({
     );
 
     reset();
-    navigate('/');
+
+    navigate(`/home/blog/${data.title.split(' ').join('-')}`);
   };
 
   return (

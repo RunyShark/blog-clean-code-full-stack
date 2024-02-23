@@ -15,10 +15,12 @@ import {
 } from '../auth/auth-slice';
 import {
   deleteBlog,
+  getByIdBlog,
   resetErrorState,
   setBlog,
   setErrorState,
   setLoadingState,
+  setNewBlog,
   updateBlogById,
   updateBlogData,
 } from './web-slice';
@@ -133,6 +135,8 @@ class WebThunk {
 
         dispatch(updateBlogDataUser(response));
         dispatch(updateBlogData(response));
+        dispatch(getByIdBlog(response.id));
+        dispatch(setNewBlog());
         dispatch(resetErrorState());
       } catch (error) {
         dispatch(setErrorState('Error creating blog: ' + error));
