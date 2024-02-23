@@ -1,8 +1,5 @@
 import { HttpAdapter } from '../../../../common/adapters/http/http.adapter';
-import { JWT, jwtAdapter } from '../../../../common/adapters/jwt';
-import { AuthMapper } from '../../../infrastructure/mappers/auth/auth.mapper';
-
-import { UserEntity } from '../../entities';
+import { JWT } from '../../../../common/adapters/jwt';
 import { CustomError } from '../../errors/custom.error';
 import { GenericUseCase } from '../interface';
 
@@ -12,21 +9,19 @@ interface ExecuteArgs {
 }
 
 interface ResponseApi {
-  data: UserEntity[];
+  data: boolean;
   state: number;
 }
 
-export class DeleteUserUseCase
-  implements GenericUseCase<ExecuteArgs, UserEntity>
-{
-  async execute({ fetcher, token }: ExecuteArgs): Promise<UserEntity> {
+export class DeleteUserUseCase implements GenericUseCase<ExecuteArgs, boolean> {
+  async execute({ fetcher, token }: ExecuteArgs): Promise<boolean> {
     try {
-      const decode = JWT.decode(token);
+      const decode = JWT.decode<{ id: string }>(token);
 
-      console.log(decode);
+      if (!decode) throw CustomError.internal('Error fetching Users');
 
       const response = await fetcher.delete<ResponseApi>(
-        `web/user/${'userId'}`,
+        `/user/account/${decode.id}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -37,7 +32,7 @@ export class DeleteUserUseCase
       if (response.state !== 200)
         throw CustomError.internal('Error fetching Users');
 
-      return AuthMapper.toEntity(response.data);
+      return response.data;
     } catch (error) {
       throw CustomError.internal('Error fetching Users');
     }

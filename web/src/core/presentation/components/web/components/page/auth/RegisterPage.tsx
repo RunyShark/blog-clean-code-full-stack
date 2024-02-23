@@ -58,7 +58,7 @@ export const RegisterPage = () => {
     );
 
     reset();
-    navigate('/');
+    navigate('/profile');
   };
 
   return (

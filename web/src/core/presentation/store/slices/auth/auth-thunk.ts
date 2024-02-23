@@ -1,6 +1,7 @@
 import { blogFetcher } from '../../../../../common/adapters/http/blogApi.adapter';
 
 import { CreateUserDto, LoginUserDto } from '../../../../domain/dto/auth';
+import { CustomError } from '../../../../domain/errors/custom.error';
 import {
   LoginUserUseCase,
   RegisterUserUseCase,
@@ -8,6 +9,7 @@ import {
 import { DeleteUserUseCase } from '../../../../domain/use-case/user';
 import { AppDispatch, RootState } from '../../store';
 import {
+  logout,
   resetErrorState,
   setErrorState,
   setLoadingState,
@@ -70,7 +72,10 @@ class AuthThunk {
           token,
         });
 
-        dispatch(setSession(response));
+        if (!response)
+          throw CustomError.badRequest('Error al eliminar la cuenta');
+
+        dispatch(logout());
         dispatch(resetErrorState());
       } catch (error) {
         dispatch(setErrorState('Error al iniciar sesión: ' + error));

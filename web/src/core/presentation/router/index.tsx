@@ -9,6 +9,8 @@ import {
   Details,
   ProfilePage,
 } from '../components/web/components';
+import { ProtectedRoutes } from './ProtectedRoutes';
+import { ProtectedAuthRoutes } from './ProtectedAuthRoutes';
 
 export const router: Router = createBrowserRouter([
   {
@@ -17,13 +19,25 @@ export const router: Router = createBrowserRouter([
   },
   {
     path: '/auth',
-    element: <MainLayout />,
+    element: (
+      <ProtectedAuthRoutes>
+        <MainLayout />
+      </ProtectedAuthRoutes>
+    ),
     children: [
-      { index: true, element: <Navigate to="login" replace /> },
+      { index: true, element: <Navigate to="/login" replace /> },
       { path: 'register', element: <RegisterPage /> },
       { path: 'login', element: <LoginPage /> },
-      { path: 'cuenta', element: <ProfilePage /> },
     ],
+  },
+  {
+    path: '/profile',
+    element: (
+      <ProtectedRoutes>
+        <MainLayout />
+      </ProtectedRoutes>
+    ),
+    children: [{ index: true, element: <ProfilePage /> }],
   },
   {
     path: '/home',

@@ -8,6 +8,7 @@ import { AddNewBlog } from '../../../../ui/molecules/addNewBlog';
 import { InformationUserAuth } from '../../../../ui/molecules/InformationUserAuth';
 import { UserPost, UserProfileHeader } from './components';
 import * as yup from 'yup';
+import { authThunk } from '../../../../../store/slices/auth/auth-thunk';
 
 type Inputs = {
   email: string;
@@ -77,9 +78,7 @@ export const ProfilePage = () => {
     reset();
   };
 
-  const deleteAccount = () => {
-    console.log('delete account');
-  };
+  const deleteAccount = () => dispatch(authThunk.deleteThunk());
 
   const addNewPost = () => {
     setIsOpen(true);
