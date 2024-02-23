@@ -1,7 +1,5 @@
 import { HttpAdapter } from '../../../../common/adapters/http/http.adapter';
-import { BlogMapper } from '../../../infrastructure/mappers';
 import { DeleteBlogDto } from '../../dto';
-import { BlogEntity } from '../../entities';
 import { CustomError } from '../../errors/custom.error';
 import { GenericUseCase } from '../interface';
 
@@ -11,14 +9,12 @@ interface ExecuteArgs extends DeleteBlogDto {
 }
 
 interface ResponseApi {
-  data: BlogEntity[];
+  data: boolean;
   state: number;
 }
 
-export class CreateBlogUseCase
-  implements GenericUseCase<ExecuteArgs, BlogEntity>
-{
-  async execute({ fetcher, blogId, token }: ExecuteArgs): Promise<BlogEntity> {
+export class DeleteBlogUseCase implements GenericUseCase<ExecuteArgs, boolean> {
+  async execute({ fetcher, blogId, token }: ExecuteArgs): Promise<boolean> {
     try {
       const response = await fetcher.delete<ResponseApi>(`web/blog/${blogId}`, {
         headers: {
@@ -29,7 +25,7 @@ export class CreateBlogUseCase
       if (response.state !== 200)
         throw CustomError.internal('Error fetching blogs');
 
-      return BlogMapper.toEntity(response.data);
+      return response.data;
     } catch (error) {
       throw CustomError.internal('Error fetching blogs');
     }

@@ -69,8 +69,15 @@ export const webSlice = createSlice({
     },
 
     updateBlogDataUser: (state, { payload }: PayloadAction<BlogEntity>) => {
-      console.log('updateBlogDataUser', payload);
       state.user.account.blog.push(payload);
+    },
+
+    deleteBlogDataUser: (state, { payload }: PayloadAction<string>) => {
+      const index = state.user.account.blog.findIndex(
+        (blog) => blog.id === payload
+      );
+
+      state.user.account.blog.splice(index, 1);
     },
   },
 });
@@ -82,6 +89,7 @@ export const {
   resetErrorState,
   logout,
   updateBlogDataUser,
+  deleteBlogDataUser,
 } = webSlice.actions;
 
 export default webSlice.reducer;

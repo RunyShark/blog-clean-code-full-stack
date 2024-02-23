@@ -105,6 +105,13 @@ export const webSlice = createSlice({
       state.blogDataControl.filteredBlogs = state.blogDataControl.blogs;
       state.blogDataControl.isActiveFilter = false;
     },
+
+    deleteBlog: (state, { payload }: PayloadAction<string>) => {
+      state.blogDataControl.blogs = state.blogDataControl.blogs.filter(
+        (blog) => blog.id !== payload
+      );
+      state.blogDataControl.filteredBlogs = state.blogDataControl.blogs;
+    },
   },
 });
 
@@ -118,6 +125,7 @@ export const {
   setInternetConnectionState,
   getByIdBlog,
   clearFilter,
+  deleteBlog,
 } = webSlice.actions;
 
 export default webSlice.reducer;

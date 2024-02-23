@@ -2,6 +2,9 @@ import { Button, Card, LottieCustom, Title } from '../../../../../ui';
 import contentWriting from '../../../../../../../../common/json/contentWriting.json';
 import { BlogEntity } from '../../../../../../../domain/entities';
 import { UserProfileHeader } from './UserProfileHeader';
+import { DeleteBlogDto } from '../../../../../../../domain/dto';
+import { useAppDispatch } from '../../../../../../store';
+import { webThunk } from '../../../../../../store/slices/web/web-thunk';
 
 interface UserPostProps {
   onClick: () => void;
@@ -9,6 +12,12 @@ interface UserPostProps {
 }
 
 export const UserPost: React.FC<UserPostProps> = ({ onClick, blog }) => {
+  const dispatch = useAppDispatch();
+
+  const handlerDelete = (id: DeleteBlogDto) => dispatch(webThunk.delete(id));
+
+  const handlerUpdate = () => {};
+
   return (
     <div className="flex flex-col gap-40">
       <div className="space-y-12 w-full">
@@ -26,12 +35,18 @@ export const UserPost: React.FC<UserPostProps> = ({ onClick, blog }) => {
         {blog.length ? (
           <div className="flex overflow-x-auto space-x-12 overflow-y-hidden">
             {blog.map((blog) => (
-              <Card
-                {...blog}
-                key={blog.id}
-                to={`/home/blog/${blog.title.split(' ').join('-')}`}
-                className="shrink-0 scale-90"
-              />
+              <div className="flex flex-col items-center" key={blog.id}>
+                <Card {...blog} className="shrink-0 scale-90" />
+                <div className="flex flex-row  w-[85%] items-end gap-5 bottom-1">
+                  <Button variant="primary">Editar</Button>
+                  <Button
+                    variant="secondary"
+                    onClick={() => handlerDelete({ blogId: blog.id })}
+                  >
+                    Eliminar
+                  </Button>
+                </div>
+              </div>
             ))}
           </div>
         ) : (

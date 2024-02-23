@@ -1,24 +1,13 @@
 import React, { useState } from 'react';
-import {
-  Button,
-  Card,
-  Input,
-  LottieCustom,
-  Modal,
-  Text,
-  Title,
-  UploadPhoto,
-} from '../../../../ui';
+import { Button, Input, Modal, Text, Title, UploadPhoto } from '../../../../ui';
 import { useAppDispatch, useAppSelector } from '../../../../../store';
-import contentWriting from '../../../../../../../common/json/contentWriting.json';
-import { getByIdBlog } from '../../../../../store/slices/web/web-slice';
 import { useFormBlog } from '../../../../../hooks';
-import * as yup from 'yup';
 import { SubmitHandler } from 'react-hook-form';
 import { IoClose } from 'react-icons/io5';
 import { AddNewBlog } from '../../../../ui/molecules/addNewBlog';
 import { InformationUserAuth } from '../../../../ui/molecules/InformationUserAuth';
 import { UserPost, UserProfileHeader } from './components';
+import * as yup from 'yup';
 
 type Inputs = {
   email: string;
