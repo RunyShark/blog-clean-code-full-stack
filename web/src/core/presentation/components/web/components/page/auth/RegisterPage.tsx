@@ -1,14 +1,12 @@
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { Button, Input, Text, Title, UploadPhoto } from '../../../../ui';
-
-import * as yup from 'yup';
 import { useState } from 'react';
 import { SubmitHandler } from 'react-hook-form';
-
 import { authThunk } from '../../../../../store/slices/auth/auth-thunk';
 import { useAppDispatch } from '../../../../../store';
 import { useFormBlog, useSlider } from '../../../../../hooks';
-import { gifs } from './data';
+import { gifs, inputsRegister } from './data';
+import { registerSchema } from './validations';
 
 type Inputs = {
   email: string;
@@ -18,21 +16,6 @@ type Inputs = {
   photo?: string;
 };
 
-const schema = yup
-  .object({
-    email: yup
-      .string()
-      .email('El correo electronico no es valido')
-      .required('El correo electronico es requerido'),
-    password: yup
-      .string()
-      .required('La contraseña es requerida')
-      .min(6, 'La contraseña debe tener al menos 6 caracteres'),
-    firstName: yup.string().required('El nombre es requerido'),
-    lastName: yup.string().required('El apellido es requerido'),
-  })
-  .required();
-
 export const RegisterPage = () => {
   const { index } = useSlider({ length: gifs.length });
   const dispatch = useAppDispatch();
@@ -40,25 +23,27 @@ export const RegisterPage = () => {
   const [isLoadingUploadPhoto, setIsLoadingUploadPhoto] = useState(false);
   const { loading, errors, register, handleSubmit, reset } =
     useFormBlog<Inputs>({
-      validations: schema,
+      validations: registerSchema,
     });
   const navigate = useNavigate();
 
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
     dispatch(
-      authThunk.registerThunk({
-        email: data.email,
-        password: data.password,
-        profile: {
-          firstName: data.firstName,
-          lastName: data.lastName,
-          photo: photoProfile,
+      authThunk.registerThunk(
+        {
+          email: data.email,
+          password: data.password,
+          profile: {
+            firstName: data.firstName,
+            lastName: data.lastName,
+            photo: photoProfile,
+          },
         },
-      })
+        navigate
+      )
     );
 
     reset();
-    navigate('/profile');
   };
 
   return (
@@ -94,32 +79,14 @@ export const RegisterPage = () => {
                     </Text>
                   </div>
 
-                  <Input
-                    label="Nombre"
-                    type="text"
-                    error={errors.firstName?.message}
-                    useForm={register('firstName')}
-                  />
-
-                  <Input
-                    label="Apellido"
-                    type="text"
-                    error={errors.lastName?.message}
-                    useForm={register('lastName')}
-                  />
-                  <Input
-                    label="Correro electronico"
-                    type="text"
-                    error={errors.email?.message}
-                    useForm={register('email')}
-                  />
-
-                  <Input
-                    label="Contraseña"
-                    type="password"
-                    error={errors.password?.message}
-                    useForm={register('password')}
-                  />
+                  {inputsRegister.map(({ label, type, key }) => (
+                    <Input
+                      label={label}
+                      type={type}
+                      error={errors[key as keyof Inputs]?.message}
+                      useForm={register(key as keyof Inputs)}
+                    />
+                  ))}
                 </div>
               </div>
 
@@ -131,17 +98,6 @@ export const RegisterPage = () => {
                 >
                   Crear cuenta
                 </Button>
-                <div className="flex flex-row gap-2 items-center justify-center">
-                  <p>¿No tienes una cuenta?</p>
-                  <Link to="/auth/register" className="text-blue-500">
-                    Registrate
-                  </Link>
-                </div>
-                <div className="flex flex-row gap-2 items-center justify-center">
-                  <Link to="/auth/register" className="text-blue-500">
-                    ¿Olvidaste tu contraseña?
-                  </Link>
-                </div>
               </div>
             </form>
           </div>

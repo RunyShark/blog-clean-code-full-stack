@@ -1,4 +1,4 @@
-import { useAppSelector } from '../../../../../store';
+import { useAppDispatch, useAppSelector } from '../../../../../store';
 import {
   Button,
   ConfettiAnimation,
@@ -9,6 +9,8 @@ import {
 import { Link } from 'react-router-dom';
 import { IoHome } from 'react-icons/io5';
 import { BlurColor } from '../../../../ui/atoms/BlurColor';
+import { useEffect } from 'react';
+import { restartNewBlog } from '../../../../../store/slices/web/web-slice';
 
 export const Details = () => {
   const {
@@ -18,6 +20,11 @@ export const Details = () => {
     },
     httpControl: { loading },
   } = useAppSelector(({ core: { web } }) => web);
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(restartNewBlog());
+  }, []);
 
   return (
     <>

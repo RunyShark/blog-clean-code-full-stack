@@ -22,7 +22,7 @@ export const ProtectedRoutes: React.FC<ProtectedRoutesProps> = ({
       ) : authStatus === AuthStatus.AUTHENTIC ? (
         <>{children}</>
       ) : (
-        <Navigate to="/auth/login" replace />
+        <Navigate to="/" replace />
       )}
     </>
   );

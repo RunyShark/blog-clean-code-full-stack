@@ -51,7 +51,7 @@ export const HomePage = () => {
       <Header />
       <BlurColor2 />
       <article className="screen flex flex-col gap-20">
-        <div className="flex w-full justify-between">
+        <div className="flex w-full flex-col md:flex-row justify-between">
           <Search />
           <div className="flex flex-col gap-4">
             <Title fontSize="text-xl">Buscar blog</Title>
@@ -61,9 +61,10 @@ export const HomePage = () => {
 
         <>
           {filteredBlogs.length ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-16 justify-items-center w-full pb-10">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-16 justify-items-center  w-full pb-10">
               {filteredBlogs.map((blog) => (
                 <Link
+                  className="w-full justify-center flex"
                   to={`blog/${blog.title.split(' ').join('-')}`}
                   key={blog.id}
                 >

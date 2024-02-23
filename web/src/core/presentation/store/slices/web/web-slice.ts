@@ -129,6 +129,10 @@ export const webSlice = createSlice({
       state.blogDataControl.filteredBlogs = state.blogDataControl.blogs;
     },
 
+    restartNewBlog: (state) => {
+      state.blogDataControl.isNewBlog = false;
+    },
+
     setNewBlog: (state) => {
       state.blogDataControl.isNewBlog = true;
     },
@@ -136,6 +140,7 @@ export const webSlice = createSlice({
 });
 
 export const {
+  restartNewBlog,
   filterBlog,
   setBlog,
   updateBlogData,

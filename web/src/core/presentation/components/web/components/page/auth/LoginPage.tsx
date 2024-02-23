@@ -1,30 +1,16 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { Button, Input, Title } from '../../../../ui';
-
-import * as yup from 'yup';
 import { useAppDispatch } from '../../../../../store';
 import { SubmitHandler } from 'react-hook-form';
 import { authThunk } from '../../../../../store/slices/auth/auth-thunk';
 import { useFormBlog, useSlider } from '../../../../../hooks';
-import { gifs } from './data';
+import { gifs, inputsLogin } from './data';
+import { loginSchema } from './validations';
 
 type Inputs = {
   email: string;
   password: string;
 };
-
-const schema = yup
-  .object({
-    email: yup
-      .string()
-      .email('El correo electronico no es valido')
-      .required('El correo electronico es requerido'),
-    password: yup
-      .string()
-      .required('La contraseña es requerida')
-      .min(6, 'La contraseña debe tener al menos 6 caracteres'),
-  })
-  .required();
 
 export const LoginPage = () => {
   const { index } = useSlider({ length: gifs.length });
@@ -32,16 +18,14 @@ export const LoginPage = () => {
   const dispatch = useAppDispatch();
   const { loading, errors, register, handleSubmit, reset } =
     useFormBlog<Inputs>({
-      validations: schema,
+      validations: loginSchema,
     });
 
   const navigate = useNavigate();
 
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
-    dispatch(authThunk.loginThunk(data));
-
+    dispatch(authThunk.loginThunk(data, navigate));
     reset();
-    navigate('/profile');
   };
 
   return (
@@ -66,19 +50,14 @@ export const LoginPage = () => {
               <Title className="mb-10">Inicia session</Title>
               <div className="p-4 w-full">
                 <div className="space-y-5">
-                  <Input
-                    label="Correro electronico"
-                    type="text"
-                    error={errors.email?.message}
-                    useForm={register('email')}
-                  />
-
-                  <Input
-                    label="Contraseña"
-                    type="password"
-                    error={errors.password?.message}
-                    useForm={register('password')}
-                  />
+                  {inputsLogin.map(({ label, type, key }) => (
+                    <Input
+                      label={label}
+                      type={type}
+                      error={errors[key as keyof Inputs]?.message}
+                      useForm={register(key as keyof Inputs)}
+                    />
+                  ))}
                 </div>
               </div>
 

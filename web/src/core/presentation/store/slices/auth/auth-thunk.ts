@@ -1,3 +1,4 @@
+import { NavigateFunction } from 'react-router-dom';
 import { blogFetcher } from '../../../../../common/adapters/http/blogApi.adapter';
 import { UpdateUserDto } from '../../../../domain/dto';
 
@@ -19,6 +20,7 @@ import {
   setLoadingState,
   setSession,
 } from './auth-slice';
+import { showAlert } from '../Alert/AlertSlice';
 
 class AuthThunk {
   public updateThunk(
@@ -36,7 +38,19 @@ class AuthThunk {
 
         dispatch(setSession(response));
         dispatch(resetErrorState());
+        dispatch(
+          showAlert({
+            message: 'Usuario actualizado correctamente',
+            type: 'success',
+          })
+        );
       } catch (error) {
+        dispatch(
+          showAlert({
+            message: 'Error al actualizar el usuario',
+            type: 'danger',
+          })
+        );
         dispatch(setErrorState('Error al registrar el usuario: ' + error));
       } finally {
         dispatch(setLoadingState(false));
@@ -45,7 +59,8 @@ class AuthThunk {
   }
 
   public registerThunk(
-    createUserDto: CreateUserDto
+    createUserDto: CreateUserDto,
+    navigate: NavigateFunction
   ): (dispatch: AppDispatch) => Promise<void> {
     return async (dispatch: AppDispatch) => {
       try {
@@ -57,8 +72,21 @@ class AuthThunk {
 
         dispatch(setSession(response));
         dispatch(resetErrorState());
+        navigate('/profile');
+        dispatch(
+          showAlert({
+            message: 'Se ha registrado correctamente 🚀',
+            type: 'success',
+          })
+        );
       } catch (error) {
         dispatch(setErrorState('Error al registrar el usuario: ' + error));
+        dispatch(
+          showAlert({
+            message: 'Error al registrar el usuario',
+            type: 'danger',
+          })
+        );
       } finally {
         dispatch(setLoadingState(false));
       }
@@ -66,7 +94,8 @@ class AuthThunk {
   }
 
   public loginThunk(
-    loginUserDto: LoginUserDto
+    loginUserDto: LoginUserDto,
+    navigate: NavigateFunction
   ): (dispatch: AppDispatch) => Promise<void> {
     return async (dispatch: AppDispatch) => {
       try {
@@ -78,7 +107,20 @@ class AuthThunk {
 
         dispatch(setSession(response));
         dispatch(resetErrorState());
+        navigate('/profile');
+        dispatch(
+          showAlert({
+            message: 'Bienvenido a tu cuenta 🚀',
+            type: 'success',
+          })
+        );
       } catch (error) {
+        dispatch(
+          showAlert({
+            message: 'Verifica tus credenciales',
+            type: 'danger',
+          })
+        );
         dispatch(setErrorState('Error al iniciar sesión: ' + error));
       } finally {
         dispatch(setLoadingState(false));
@@ -104,7 +146,19 @@ class AuthThunk {
 
         dispatch(logout());
         dispatch(resetErrorState());
+        dispatch(
+          showAlert({
+            message: 'Se ha eliminado la cuenta correctamente',
+            type: 'success',
+          })
+        );
       } catch (error) {
+        dispatch(
+          showAlert({
+            message: 'Error al eliminar la cuenta',
+            type: 'danger',
+          })
+        );
         dispatch(setErrorState('Error al iniciar sesión: ' + error));
       } finally {
         dispatch(setLoadingState(false));
