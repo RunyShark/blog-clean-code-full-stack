@@ -7,10 +7,12 @@ import { yupResolver } from '@hookform/resolvers/yup';
 
 interface UseFormBlogProps {
   validations: any;
+  values?: any;
 }
 
 export const useFormBlog = <T extends FieldValues>({
   validations,
+  values,
 }: UseFormBlogProps) => {
   const {
     register,
@@ -18,7 +20,8 @@ export const useFormBlog = <T extends FieldValues>({
     formState: { errors },
     reset,
   } = useForm<T>({
-    resolver: yupResolver(validations) as any, // Add 'as any' to bypass type checking
+    resolver: yupResolver(validations) as any,
+    values,
   });
 
   const inputElement = useRef<HTMLInputElement>(null);

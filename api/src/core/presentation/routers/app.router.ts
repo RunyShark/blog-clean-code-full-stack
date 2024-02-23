@@ -13,9 +13,15 @@ import { AuthDataSourcePostgres } from '@infrastructure/datasources/auth';
 import { prisma } from '../../../common/config/db/prisma.service';
 import { BlogDataSourcePostgres } from '@infrastructure/datasources/web/blog.datasource.postgres';
 import { encrypt } from '@common/adapter';
+import { UserRouter } from './user';
+import { UserController } from './user/user.controller';
+import { UserService } from './user/user.service';
+import { UserRepositoryImpl } from '@infrastructure/repositories/user/user.repository.impl';
+import { UserDataSourcePostgres } from '@infrastructure/datasources/user';
 
 export enum ValidRoutes {
   auth = 'auth',
+  user = 'user',
   web = 'web',
 }
 
@@ -49,6 +55,15 @@ export class AppRoutes {
       )
     ).routes;
 
+    const userRouter = new UserRouter(
+      this.router,
+      new UserController(
+        new UserService(
+          new UserRepositoryImpl(new UserDataSourcePostgres(this.db, encrypt))
+        )
+      )
+    ).routes;
+
     const webRouter = new WebRouter(
       this.router,
       new WebController(
@@ -59,6 +74,7 @@ export class AppRoutes {
     ).routes;
 
     this.router.use(`${baseApi}${ValidRoutes.auth}`, authRouter);
+    this.router.use(`${baseApi}${ValidRoutes.user}`, userRouter);
     this.router.use(`${baseApi}${ValidRoutes.web}`, webRouter);
 
     return this.router;

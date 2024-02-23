@@ -3,12 +3,18 @@ import { IoCloudUpload } from 'react-icons/io5';
 import { Button } from '../Button';
 import { usePhoto } from '../../../../hooks';
 
-interface UploadPhotoProps {
+interface OptionalProps {
+  photoURL: string;
+  loading: boolean;
+}
+interface UploadPhotoProps extends Partial<OptionalProps> {
   onFileChange: (url: string) => void;
   isLoading: (value: boolean) => void;
 }
 
 export const UploadPhoto: React.FC<UploadPhotoProps> = ({
+  loading,
+  photoURL,
   onFileChange,
   isLoading,
 }) => {
@@ -48,9 +54,9 @@ export const UploadPhoto: React.FC<UploadPhotoProps> = ({
         className="flex justify-center items-center h-20 w-20 border-2 border-dotted  rounded-full border-neutral-700 text-neutral-600 cursor-pointer"
         onClick={upLoadPhoto}
       >
-        {updatePhoto ? (
+        {photoURL || updatePhoto ? (
           <img
-            src={updatePhoto}
+            src={updatePhoto || photoURL}
             alt="preview"
             width={100}
             height={100}
@@ -85,6 +91,7 @@ export const UploadPhoto: React.FC<UploadPhotoProps> = ({
 
       <div>
         <Button
+          disabled={loading}
           type="button"
           iconLeft={<IoCloudUpload size={25} />}
           onClick={upLoadPhoto}

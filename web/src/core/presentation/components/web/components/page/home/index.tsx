@@ -13,11 +13,12 @@ import {
 } from '../../../../../store/hooks/index';
 
 import { getByIdBlog } from '../../../../../store/slices/web/web-slice';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { AddNewBlog } from '../../../../ui/molecules/addNewBlog';
 import { IoClose } from 'react-icons/io5';
 import { InformationUserAuth } from '../../../../ui/molecules/InformationUserAuth';
 import nofilters from '../../../../../../../common/json/nofilters.json';
+import { webThunk } from '../../../../../store/slices/web/web-thunk';
 
 export const HomePage = () => {
   const {
@@ -31,6 +32,11 @@ export const HomePage = () => {
     },
   } = useAppSelector((state) => state);
   const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(webThunk.initWeb());
+  }, []);
+
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
   const currentBlock = (id: string) => dispatch(getByIdBlog(id));

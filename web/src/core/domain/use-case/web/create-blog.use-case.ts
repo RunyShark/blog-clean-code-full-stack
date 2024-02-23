@@ -35,7 +35,7 @@ export class CreateBlogUseCase
       if (response.state !== 200)
         throw CustomError.internal('Error fetching blogs');
 
-      return BlogMapper.toEntity(response);
+      return BlogMapper.toEntity(response.data);
     } catch (error) {
       throw CustomError.internal('Error fetching blogs');
     }

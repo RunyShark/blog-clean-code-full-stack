@@ -5,7 +5,9 @@ import * as yup from 'yup';
 import { useAppDispatch } from '../../../../../store';
 import { SubmitHandler } from 'react-hook-form';
 import { authThunk } from '../../../../../store/slices/auth/auth-thunk';
-import { useFormBlog } from '../../../../../hooks';
+import { useFormBlog, useSlider } from '../../../../../hooks';
+import { useEffect, useState } from 'react';
+import { gifs } from './data';
 
 type Inputs = {
   email: string;
@@ -26,6 +28,8 @@ const schema = yup
   .required();
 
 export const LoginPage = () => {
+  const { index } = useSlider({ length: gifs.length });
+
   const dispatch = useAppDispatch();
   const { loading, errors, register, handleSubmit, reset } =
     useFormBlog<Inputs>({
@@ -50,7 +54,7 @@ export const LoginPage = () => {
             style={{
               height: 'calc(100vh - 260px)',
             }}
-            src="https://res.cloudinary.com/runyshark1/image/upload/v1708316368/next-blog/lukbixb6shkkxw9iqjiz.gif"
+            src={gifs[index]}
             alt="login"
           />
         </div>

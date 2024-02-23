@@ -7,6 +7,7 @@ import {
   RegisterPage,
   MainLayout,
   Details,
+  ProfilePage,
 } from '../components/web/components';
 
 export const router: Router = createBrowserRouter([
@@ -21,6 +22,7 @@ export const router: Router = createBrowserRouter([
       { index: true, element: <Navigate to="login" replace /> },
       { path: 'register', element: <RegisterPage /> },
       { path: 'login', element: <LoginPage /> },
+      { path: 'cuenta', element: <ProfilePage /> },
     ],
   },
   {

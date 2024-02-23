@@ -7,7 +7,8 @@ import { SubmitHandler } from 'react-hook-form';
 
 import { authThunk } from '../../../../../store/slices/auth/auth-thunk';
 import { useAppDispatch } from '../../../../../store';
-import { useFormBlog } from '../../../../../hooks';
+import { useFormBlog, useSlider } from '../../../../../hooks';
+import { gifs } from './data';
 
 type Inputs = {
   email: string;
@@ -33,6 +34,7 @@ const schema = yup
   .required();
 
 export const RegisterPage = () => {
+  const { index } = useSlider({ length: gifs.length });
   const dispatch = useAppDispatch();
   const [photoProfile, setPhotoProfile] = useState<string>('');
   const [isLoadingUploadPhoto, setIsLoadingUploadPhoto] = useState(false);
@@ -68,7 +70,7 @@ export const RegisterPage = () => {
             style={{
               height: 'calc(100vh - 260px)',
             }}
-            src="https://res.cloudinary.com/runyshark1/image/upload/v1708316368/next-blog/lukbixb6shkkxw9iqjiz.gif"
+            src={gifs[index]}
             alt="login"
           />
         </div>
@@ -95,14 +97,14 @@ export const RegisterPage = () => {
                   <Input
                     label="Nombre"
                     type="text"
-                    error={errors.password?.message}
+                    error={errors.firstName?.message}
                     useForm={register('firstName')}
                   />
 
                   <Input
                     label="Apellido"
-                    type="password"
-                    error={errors.password?.message}
+                    type="text"
+                    error={errors.lastName?.message}
                     useForm={register('lastName')}
                   />
                   <Input

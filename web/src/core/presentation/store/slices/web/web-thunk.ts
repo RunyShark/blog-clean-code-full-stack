@@ -3,6 +3,7 @@ import { BlogDto } from '../../../../domain/dto/web/blog.dto';
 import { GetAllBlogsUseCase } from '../../../../domain/use-case';
 import { CreateBlogUseCase } from '../../../../domain/use-case/web/create-blog.use-case';
 import { AppDispatch, RootState } from '../../store';
+import { updateBlogDataUser } from '../auth/auth-slice';
 import {
   resetErrorState,
   setBlog,
@@ -56,6 +57,7 @@ class WebThunk {
           token,
         });
 
+        dispatch(updateBlogDataUser(response));
         dispatch(updateBlogData(response));
         dispatch(resetErrorState());
       } catch (error) {

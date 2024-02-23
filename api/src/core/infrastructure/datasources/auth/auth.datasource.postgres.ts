@@ -1,4 +1,4 @@
-import { EncryptAdapterDomain, encrypt } from '@common/adapter';
+import { EncryptAdapterDomain } from '@common/adapter';
 import { prisma } from '@common/config';
 import { AuthDataSource } from '@domain/datasources/auth/auth.datasource';
 import {
@@ -16,7 +16,17 @@ export class AuthDataSourcePostgres implements AuthDataSource {
     private readonly hash: EncryptAdapterDomain
   ) {}
 
+  private accountExist(email: string) {
+    return this.db.user.findUnique({
+      where: { email },
+    });
+  }
+
   async createAccount(createUserDto: CreateUserDto): Promise<UserEntity> {
+    const userExist = await this.accountExist(createUserDto.email);
+
+    if (userExist) throw CustomError.badRequest('Check your information');
+
     const newAccount = await this.db.user.create({
       data: {
         email: createUserDto.email,
@@ -60,6 +70,9 @@ export class AuthDataSourcePostgres implements AuthDataSource {
           },
         },
         blog: {
+          orderBy: {
+            createdAt: 'desc',
+          },
           select: {
             id: true,
             title: true,
@@ -81,8 +94,36 @@ export class AuthDataSourcePostgres implements AuthDataSource {
     return AuthMapper.toEntity(user);
   }
 
-  async refreshToken(): Promise<UserEntity> {
-    return AuthMapper.toEntity({});
+  async refreshToken(userId: string): Promise<UserEntity> {
+    const user = await this.db.user.findUnique({
+      where: { id: userId },
+      include: {
+        profile: {
+          select: {
+            firstName: true,
+            lastName: true,
+            photo: true,
+          },
+        },
+        blog: {
+          orderBy: {
+            createdAt: 'desc',
+          },
+          select: {
+            id: true,
+            title: true,
+            content: true,
+            imgUrl: true,
+            author: true,
+            createdAt: true,
+          },
+        },
+      },
+    });
+
+    if (!user) throw CustomError.notFound('User not found');
+
+    return AuthMapper.toEntity(user);
   }
   async resetpassword(id: ResetPasswordUserDto): Promise<boolean> {
     return true;
