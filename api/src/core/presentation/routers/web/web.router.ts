@@ -9,6 +9,12 @@ export class WebRouter {
   ) {}
 
   get routes(): Router {
+    this.router.put(
+      '/blog',
+      [AuthMiddleware.validateJWT],
+      this.authController.update
+    );
+
     this.router.post(
       '/create',
       [AuthMiddleware.validateJWT],
@@ -17,13 +23,8 @@ export class WebRouter {
 
     this.router.get('/getBlogs', this.authController.getBlogs);
 
-    this.router.put(
-      '/',
-      [AuthMiddleware.validateJWT],
-      this.authController.update
-    );
     this.router.delete(
-      '/',
+      '/blog',
       [AuthMiddleware.validateJWT],
       this.authController.delete
     );
