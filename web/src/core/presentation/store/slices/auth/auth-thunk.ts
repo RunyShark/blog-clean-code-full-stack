@@ -1,4 +1,5 @@
 import { blogFetcher } from '../../../../../common/adapters/http/blogApi.adapter';
+import { UpdateUserDto } from '../../../../domain/dto';
 
 import { CreateUserDto, LoginUserDto } from '../../../../domain/dto/auth';
 import { CustomError } from '../../../../domain/errors/custom.error';
@@ -6,7 +7,10 @@ import {
   LoginUserUseCase,
   RegisterUserUseCase,
 } from '../../../../domain/use-case';
-import { DeleteUserUseCase } from '../../../../domain/use-case/user';
+import {
+  DeleteUserUseCase,
+  UpdateUserUseCase,
+} from '../../../../domain/use-case/user';
 import { AppDispatch, RootState } from '../../store';
 import {
   logout,
@@ -17,6 +21,29 @@ import {
 } from './auth-slice';
 
 class AuthThunk {
+  public updateThunk(
+    updateUserDto: UpdateUserDto
+  ): (dispatch: AppDispatch, getState: () => RootState) => Promise<void> {
+    return async (dispatch: AppDispatch, getState: () => RootState) => {
+      const { token } = getState().core.session.user;
+      try {
+        dispatch(setLoadingState(true));
+        const response = await new UpdateUserUseCase().execute({
+          fetcher: blogFetcher,
+          updateUserDto,
+          token,
+        });
+
+        dispatch(setSession(response));
+        dispatch(resetErrorState());
+      } catch (error) {
+        dispatch(setErrorState('Error al registrar el usuario: ' + error));
+      } finally {
+        dispatch(setLoadingState(false));
+      }
+    };
+  }
+
   public registerThunk(
     createUserDto: CreateUserDto
   ): (dispatch: AppDispatch) => Promise<void> {
