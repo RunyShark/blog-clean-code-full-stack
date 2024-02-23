@@ -47,7 +47,7 @@ export const HomePage = () => {
   const handlerCloseModal = () => setIsOpen(false);
 
   return (
-    <section>
+    <section className="">
       <Header />
       <BlurColor2 />
       <article className="screen flex flex-col gap-20">
