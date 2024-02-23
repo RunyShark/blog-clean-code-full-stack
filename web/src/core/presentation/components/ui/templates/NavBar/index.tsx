@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { Logo, Modal } from '../../molecules';
+import { Logo } from '../../molecules';
 import { Button } from '../../molecules/Button';
 import { MenuNavBar } from './components';
 import { useAppSelector } from '../../../../store';
@@ -27,9 +27,20 @@ export const NavBar = () => {
       <div className="screen items-center py-4">
         <div className="flex items-center gap-11 justify-between w-full md:w-auto">
           <Logo />
-          <MenuNavBar routes={routes} />
+          {token && (
+            <div className="hidden md:flex gap-6">
+              <MenuNavBar routes={routes} />
+            </div>
+          )}
+          {!token ? (
+            <MenuNavBar routes={routes} />
+          ) : (
+            <div className="md:hidden flex gap-6">
+              <ProfileUser />
+            </div>
+          )}
         </div>
-        <div className="flex gap-6">
+        <div className="hidden md:flex flex gap-6">
           {token ? (
             <>
               <ProfileUser />
@@ -46,11 +57,6 @@ export const NavBar = () => {
           )}
         </div>
       </div>
-      <Modal isOpen={false} onClose={() => {}}>
-        <div className="flex items-center gap-3">
-          <h1>w</h1>
-        </div>
-      </Modal>
     </nav>
   );
 };

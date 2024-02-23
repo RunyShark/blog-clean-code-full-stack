@@ -1,13 +1,14 @@
-import React, { useState } from 'react';
-import { Button, Input, Modal, Text, Title, UploadPhoto } from '../../../../ui';
-import { useAppDispatch, useAppSelector } from '../../../../../store';
-import { useFormBlog } from '../../../../../hooks';
+import { useState } from 'react';
 import { SubmitHandler } from 'react-hook-form';
-import { IoClose } from 'react-icons/io5';
-import { AddNewBlog } from '../../../../ui/molecules/addNewBlog';
-import { InformationUserAuth } from '../../../../ui/molecules/InformationUserAuth';
-import { UserPost, UserProfileHeader } from './components';
-import * as yup from 'yup';
+import { Button, Input, Text, UploadPhoto } from '../../../../ui';
+import { useFormBlog } from '../../../../../hooks';
+import { ModalDeleteAccount, UserPost, UserProfileHeader } from './components';
+import { authThunk } from '../../../../../store/slices/auth/auth-thunk';
+import { useAppDispatch, useAppSelector } from '../../../../../store';
+import { useModal } from '../../../../../hooks/useModal';
+import { ModalAddNewBlog } from './components/ModalAddNewBlog';
+import { inputsProfile } from './data';
+import { profileSchema } from './validations';
 
 type Inputs = {
   email: string;
@@ -17,73 +18,58 @@ type Inputs = {
   photo?: string;
 };
 
-const schema = yup
-  .object({
-    email: yup
-      .string()
-      .email('El correo electronico no es valido')
-      .required('El correo electronico es requerido'),
-    password: yup
-      .string()
-      .required('La contraseña es requerida')
-      .min(6, 'La contraseña debe tener al menos 6 caracteres'),
-    firstName: yup.string().required('El nombre es requerido'),
-    lastName: yup.string().required('El apellido es requerido'),
-  })
-  .required();
-
 export const ProfilePage = () => {
   const {
     core: {
       session: {
         user: {
-          token,
-          account: { blog, email, profile },
+          account: { blog, profile },
         },
       },
     },
   } = useAppSelector((state) => state);
-  const [photoProfile, setPhotoProfile] = useState<string>('');
-  const [isOpen, setIsOpen] = useState<boolean>(false);
-  const [isLoadingUploadPhoto, setIsLoadingUploadPhoto] = useState(false);
-
   const dispatch = useAppDispatch();
+  const { close, isOpen, open } = useModal();
+  const [deleteModal, setDeleteModal] = useState(false);
+  const [photoState, setPhotoState] = useState({
+    photo: profile.photo,
+    isLoading: false,
+  });
+
   const { loading, errors, register, handleSubmit, reset } =
     useFormBlog<Inputs>({
-      validations: schema,
+      validations: profileSchema,
       values: {
-        email,
         firstName: profile.firstName,
         lastName: profile.lastName,
       },
     });
 
-  const handlerCloseModal = () => setIsOpen(false);
+  const handlerCloseModal = () => close();
 
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
-    console.log('data', data, photoProfile);
-    // dispatch(
-    //   authThunk.registerThunk({
-    //     email: data.email,
-    //     password: data.password,
-    //     profile: {
-    //       firstName: data.firstName,
-    //       lastName: data.lastName,
-    //       photo: photoProfile,
-    //     },
-    //   })
-    // );
+    dispatch(
+      authThunk.updateThunk({
+        email: data.email,
+        password: data.password,
+        profile: {
+          firstName: data.firstName,
+          lastName: data.lastName,
+          photo: photoState.photo,
+        },
+      })
+    );
 
     reset();
   };
 
-  const deleteAccount = () => {
-    console.log('delete account');
-  };
+  const handlerDeleteBlog = () => dispatch(authThunk.deleteThunk());
 
-  const addNewPost = () => {
-    setIsOpen(true);
-  };
+  const onFileChange = (photo: string) =>
+    setPhotoState({ ...photoState, photo });
+
+  const setIsLoadingUploadPhoto = () =>
+    setPhotoState({ ...photoState, isLoading: true });
 
   return (
     <>
@@ -105,51 +91,36 @@ export const ProfilePage = () => {
                   <UploadPhoto
                     loading={loading}
                     photoURL={profile.photo}
-                    onFileChange={setPhotoProfile}
+                    onFileChange={onFileChange}
                     isLoading={setIsLoadingUploadPhoto}
                   />
                 </div>
-                <div className="sm:col-span-4 ">
-                  <Input
-                    label="Nombre"
-                    type="text"
-                    error={errors.firstName?.message}
-                    useForm={register('firstName')}
-                  />
-                </div>
 
-                <div className="sm:col-span-4">
-                  <Input
-                    label="Apellido"
-                    type="text"
-                    // value={profile.lastName}
-                    error={errors.lastName?.message}
-                    useForm={register('lastName')}
-                  />
-                </div>
+                {inputsProfile.map((input) => (
+                  <div className="sm:col-span-4" key={input.key}>
+                    <Input
+                      label={input.label}
+                      type={input.type}
+                      error={errors[input.key as keyof Inputs]?.message}
+                      useForm={register(input.key as keyof Inputs)}
+                    />
+                  </div>
+                ))}
 
-                <div className="sm:col-span-4">
-                  <Input
-                    label="Correo electronico"
-                    // value={email}
-                    type="email"
-                    error={errors.email?.message}
-                    useForm={register('email')}
-                  />
-                </div>
                 <div className="flex flex-col justify-end gap-x-2 w-full gap-4">
                   <Button
                     className="h-10"
                     type="submit"
-                    disabled={isLoadingUploadPhoto || loading}
+                    disabled={photoState.isLoading || loading}
                   >
                     Guardar
                   </Button>
                   <Button
-                    onClick={deleteAccount}
+                    type="button"
+                    onClick={() => setDeleteModal(true)}
                     className="h-10"
                     variant="secondary"
-                    disabled={isLoadingUploadPhoto || loading}
+                    disabled={photoState.isLoading || loading}
                   >
                     Eliminar
                   </Button>
@@ -158,22 +129,18 @@ export const ProfilePage = () => {
             </div>
           </div>
         </form>
-        <UserPost onClick={addNewPost} blog={blog} />
+        <UserPost onClick={open} blog={blog} />
       </div>
-      <Modal isOpen={isOpen} onClose={handlerCloseModal}>
-        <div className="flex flex-row gap-4 justify-between">
-          <Title fontSize="text-xl">Postear Blog</Title>
-          <Button
-            onClick={handlerCloseModal}
-            style={{
-              borderRadius: '999px',
-            }}
-          >
-            <IoClose size={20} />
-          </Button>
-        </div>
-        {token ? <AddNewBlog /> : <InformationUserAuth />}
-      </Modal>
+
+      <ModalDeleteAccount
+        title="Eliminar cuenta"
+        description="¿Estás seguro de eliminar este cuenta?"
+        isOpen={deleteModal}
+        handlerCloseModal={() => setDeleteModal(false)}
+        handlerDeleteBlog={handlerDeleteBlog}
+      />
+
+      <ModalAddNewBlog isOpen={isOpen} handlerCloseModal={handlerCloseModal} />
     </>
   );
 };

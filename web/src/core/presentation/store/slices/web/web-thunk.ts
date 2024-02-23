@@ -8,6 +8,7 @@ import {
 } from '../../../../domain/use-case';
 import { CreateBlogUseCase } from '../../../../domain/use-case/web/create-blog.use-case';
 import { AppDispatch, RootState } from '../../store';
+import { showAlert } from '../Alert/AlertSlice';
 import {
   deleteBlogDataUser,
   updateBlogDataUser,
@@ -48,7 +49,19 @@ class WebThunk {
         dispatch(updateBlogById(response));
         dispatch(updateUserBlogById(response));
         dispatch(resetErrorState());
+        dispatch(
+          showAlert({
+            message: 'Se ha actualizado el blog correctamente 🚀',
+            type: 'success',
+          })
+        );
       } catch (error) {
+        dispatch(
+          showAlert({
+            message: 'Error al actualizar el blog',
+            type: 'danger',
+          })
+        );
         dispatch(setErrorState('Init web error: ' + error));
       } finally {
         dispatch(setLoadingState(false));
@@ -81,7 +94,19 @@ class WebThunk {
         dispatch(deleteBlogDataUser(blogId));
         dispatch(deleteBlog(blogId));
         dispatch(resetErrorState());
+        dispatch(
+          showAlert({
+            message: 'Se ha eliminado el blog correctamente',
+            type: 'success',
+          })
+        );
       } catch (error) {
+        dispatch(
+          showAlert({
+            message: 'Error al eliminar el blog',
+            type: 'danger',
+          })
+        );
         dispatch(setErrorState('Init web error: ' + error));
       } finally {
         dispatch(setLoadingState(false));
@@ -100,6 +125,12 @@ class WebThunk {
         dispatch(setBlog(response));
         dispatch(resetErrorState());
       } catch (error) {
+        dispatch(
+          showAlert({
+            message: 'Algo salió mal  😢',
+            type: 'danger',
+          })
+        );
         dispatch(setErrorState('Init web error: ' + error));
       } finally {
         dispatch(setLoadingState(false));
@@ -138,7 +169,19 @@ class WebThunk {
         dispatch(getByIdBlog(response.id));
         dispatch(setNewBlog());
         dispatch(resetErrorState());
+        dispatch(
+          showAlert({
+            message: 'Nuevo blog creado correctamente 🚀',
+            type: 'success',
+          })
+        );
       } catch (error) {
+        dispatch(
+          showAlert({
+            message: 'Error al crear el blog',
+            type: 'danger',
+          })
+        );
         dispatch(setErrorState('Error creating blog: ' + error));
       } finally {
         dispatch(setLoadingState(false));

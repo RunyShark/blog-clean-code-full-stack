@@ -2,7 +2,7 @@ import { Button, Card, LottieCustom, Modal, Title } from '../../../../../ui';
 import contentWriting from '../../../../../../../../common/json/contentWriting.json';
 import { BlogEntity } from '../../../../../../../domain/entities';
 import { UserProfileHeader } from './UserProfileHeader';
-import { DeleteBlogDto, UpdateBlogDto } from '../../../../../../../domain/dto';
+import { UpdateBlogDto } from '../../../../../../../domain/dto';
 import { useAppDispatch, useAppSelector } from '../../../../../../store';
 import { webThunk } from '../../../../../../store/slices/web/web-thunk';
 import { useState } from 'react';
@@ -10,6 +10,7 @@ import { IoClose } from 'react-icons/io5';
 import { AddNewBlog } from '../../../../../ui/molecules/addNewBlog';
 import { getByIdBlog } from '../../../../../../store/slices/web/web-slice';
 import { Link } from 'react-router-dom';
+import { ModalDeleteAccount } from './ModalDeleteAccount';
 
 interface UserPostProps {
   onClick: () => void;
@@ -23,9 +24,11 @@ export const UserPost: React.FC<UserPostProps> = ({ onClick, blog }) => {
     },
   } = useAppSelector((state) => state.core);
   const [isOpen, setIsOpen] = useState(false);
+  const [deleteModal, setDeleteModal] = useState({
+    isOpen: false,
+    id: '',
+  });
   const dispatch = useAppDispatch();
-
-  const handlerDelete = (id: DeleteBlogDto) => dispatch(webThunk.delete(id));
 
   const setByIdBlog = (id: string) => dispatch(getByIdBlog(id));
 
@@ -43,6 +46,15 @@ export const UserPost: React.FC<UserPostProps> = ({ onClick, blog }) => {
         ...values,
       })
     );
+    setIsOpen(false);
+  };
+
+  const handlerDeleteBlog = () => {
+    dispatch(webThunk.delete({ blogId: deleteModal.id }));
+    setDeleteModal({
+      isOpen: false,
+      id: '',
+    });
   };
 
   return (
@@ -61,9 +73,12 @@ export const UserPost: React.FC<UserPostProps> = ({ onClick, blog }) => {
 
         <div className="flex h-full ">
           {blog.length ? (
-            <div className="flex overflow-x-auto space-x-12 overflow-y-hidden ">
+            <div className="flex  overflow-x-auto space-x-12 overflow-y-hidden ">
               {blog.map((blog) => (
-                <div className="flex flex-col items-center mb-20" key={blog.id}>
+                <div
+                  className="flex flex-col items-center mb-20 "
+                  key={blog.id}
+                >
                   <Link
                     to={`/home/blog/${blog.title.split(' ').join('-')}`}
                     key={blog.id}
@@ -77,7 +92,9 @@ export const UserPost: React.FC<UserPostProps> = ({ onClick, blog }) => {
                     </Button>
                     <Button
                       variant="secondary"
-                      onClick={() => handlerDelete({ blogId: blog.id })}
+                      onClick={() =>
+                        setDeleteModal({ isOpen: true, id: blog.id })
+                      }
                     >
                       Eliminar
                     </Button>
@@ -98,9 +115,23 @@ export const UserPost: React.FC<UserPostProps> = ({ onClick, blog }) => {
           )}
         </div>
       </div>
+
+      <ModalDeleteAccount
+        title="Eliminar Blog"
+        description="¿Estás seguro de eliminar este blog?"
+        isOpen={deleteModal.isOpen}
+        handlerCloseModal={() =>
+          setDeleteModal({
+            isOpen: false,
+            id: '',
+          })
+        }
+        handlerDeleteBlog={handlerDeleteBlog}
+      />
+
       <Modal isOpen={isOpen} onClose={handlerCloseModal}>
         <div className="flex flex-row gap-4 justify-between">
-          <Title fontSize="text-xl">Postear Blog</Title>
+          <Title fontSize="text-xl">Editar Blog</Title>
 
           <Button
             onClick={handlerCloseModal}

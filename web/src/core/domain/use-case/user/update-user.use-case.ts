@@ -16,7 +16,7 @@ interface ResponseApi {
   state: number;
 }
 
-export class CreateUserUseCase
+export class UpdateUserUseCase
   implements GenericUseCase<ExecuteArgs, UserEntity>
 {
   async execute({
@@ -38,7 +38,7 @@ export class CreateUserUseCase
       if (response.state !== 200)
         throw CustomError.internal('Error fetching Users');
 
-      return AuthMapper.toEntity(response.data);
+      return AuthMapper.toEntity(response);
     } catch (error) {
       throw CustomError.internal('Error fetching Users');
     }
