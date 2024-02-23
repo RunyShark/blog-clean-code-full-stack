@@ -87,6 +87,14 @@ export const webSlice = createSlice({
       state.blogDataControl.filteredBlogs = state.blogDataControl.blogs;
     },
 
+    updateBlogById: (state, { payload }: PayloadAction<BlogEntity>) => {
+      state.blogDataControl.blogs = state.blogDataControl.blogs.map((blog) =>
+        blog.id === payload.id ? payload : blog
+      );
+      state.blogDataControl.filteredBlogs = state.blogDataControl.blogs;
+      state.blogDataControl.currentBlog = payload;
+    },
+
     setLoadingState: (state, { payload }: PayloadAction<boolean>) => {
       state.httpControl.loading = payload;
     },
@@ -126,6 +134,7 @@ export const {
   getByIdBlog,
   clearFilter,
   deleteBlog,
+  updateBlogById,
 } = webSlice.actions;
 
 export default webSlice.reducer;

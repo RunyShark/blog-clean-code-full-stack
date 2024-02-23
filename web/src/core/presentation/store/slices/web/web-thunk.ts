@@ -1,23 +1,59 @@
 import { blogFetcher } from '../../../../../common/adapters/http/blogApi.adapter';
-import { DeleteBlogDto } from '../../../../domain/dto';
+import { DeleteBlogDto, UpdateBlogDto } from '../../../../domain/dto';
 import { BlogDto } from '../../../../domain/dto/web/blog.dto';
 import {
   GetAllBlogsUseCase,
   DeleteBlogUseCase,
+  UpdateBlogUseCase,
 } from '../../../../domain/use-case';
 import { CreateBlogUseCase } from '../../../../domain/use-case/web/create-blog.use-case';
 import { AppDispatch, RootState } from '../../store';
-import { deleteBlogDataUser, updateBlogDataUser } from '../auth/auth-slice';
+import {
+  deleteBlogDataUser,
+  updateBlogDataUser,
+  updateUserBlogById,
+} from '../auth/auth-slice';
 import {
   deleteBlog,
   resetErrorState,
   setBlog,
   setErrorState,
   setLoadingState,
+  updateBlogById,
   updateBlogData,
 } from './web-slice';
 
 class WebThunk {
+  public update(
+    updateBlogDto: UpdateBlogDto
+  ): (dispatch: AppDispatch, getState: () => RootState) => Promise<void> {
+    return async (dispatch: AppDispatch, getState: () => RootState) => {
+      const { token } = getState().core.session.user;
+
+      try {
+        dispatch(setLoadingState(true));
+        const response = await new UpdateBlogUseCase().execute({
+          fetcher: blogFetcher,
+          updateBlogDto,
+          token,
+        });
+
+        if (!response) {
+          dispatch(setErrorState('Error deleting blog'));
+          return;
+        }
+
+        dispatch(updateBlogById(response));
+        dispatch(updateUserBlogById(response));
+        dispatch(resetErrorState());
+      } catch (error) {
+        dispatch(setErrorState('Init web error: ' + error));
+      } finally {
+        dispatch(setLoadingState(false));
+      }
+    };
+  }
+
   public delete({
     blogId,
   }: DeleteBlogDto): (
@@ -50,6 +86,7 @@ class WebThunk {
       }
     };
   }
+
   public initWeb(): (dispatch: AppDispatch) => Promise<void> {
     return async (dispatch: AppDispatch) => {
       try {

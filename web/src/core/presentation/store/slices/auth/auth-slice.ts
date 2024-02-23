@@ -72,6 +72,12 @@ export const webSlice = createSlice({
       state.user.account.blog.push(payload);
     },
 
+    updateUserBlogById: (state, { payload }: PayloadAction<BlogEntity>) => {
+      state.user.account.blog = state.user.account.blog.map((blog) =>
+        blog.id === payload.id ? payload : blog
+      );
+    },
+
     deleteBlogDataUser: (state, { payload }: PayloadAction<string>) => {
       const index = state.user.account.blog.findIndex(
         (blog) => blog.id === payload
@@ -90,6 +96,7 @@ export const {
   logout,
   updateBlogDataUser,
   deleteBlogDataUser,
+  updateUserBlogById,
 } = webSlice.actions;
 
 export default webSlice.reducer;
