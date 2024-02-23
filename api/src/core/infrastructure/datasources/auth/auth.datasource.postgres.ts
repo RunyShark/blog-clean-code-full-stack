@@ -1,4 +1,4 @@
-import { EncryptAdapterDomain, encrypt } from '@common/adapter';
+import { EncryptAdapterDomain } from '@common/adapter';
 import { prisma } from '@common/config';
 import { AuthDataSource } from '@domain/datasources/auth/auth.datasource';
 import {
@@ -16,7 +16,17 @@ export class AuthDataSourcePostgres implements AuthDataSource {
     private readonly hash: EncryptAdapterDomain
   ) {}
 
+  private accountExist(email: string) {
+    return this.db.user.findUnique({
+      where: { email },
+    });
+  }
+
   async createAccount(createUserDto: CreateUserDto): Promise<UserEntity> {
+    const userExist = await this.accountExist(createUserDto.email);
+
+    if (userExist) throw CustomError.badRequest('Check your information');
+
     const newAccount = await this.db.user.create({
       data: {
         email: createUserDto.email,

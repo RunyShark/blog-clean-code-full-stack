@@ -1,15 +1,19 @@
-import React from 'react';
 import { Typography } from '../../atoms';
+import { useAppSelector } from '../../../../store';
 
 export const OfflineAlert = () => {
-  // const {
-  //   fetchControl: { isOnline },
-  // } = useAppSelector(({ web }) => web);
+  const {
+    core: {
+      web: {
+        httpControl: { internetConnection },
+      },
+    },
+  } = useAppSelector((state) => state);
 
   return (
     <div
-      className={`border-l-4 border-yellow-400 bg-yellow-50 p-4  transition-all ${
-        true ? 'opacity-0' : 'opacity-100'
+      className={`border-l-8 border-yellow-400 bg-yellow-50 p-4  transition-all ${
+        internetConnection ? 'opacity-0 pointer-events-none' : 'opacity-100'
       }`}
     >
       <div className="flex">

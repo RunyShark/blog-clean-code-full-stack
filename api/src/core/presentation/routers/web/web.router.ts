@@ -1,4 +1,4 @@
-import { Router, Request, Response } from 'express';
+import { Router } from 'express';
 import { WebController } from './web.controller';
 import { AuthMiddleware } from '@presentation/middleware';
 
@@ -16,6 +16,17 @@ export class WebRouter {
     );
 
     this.router.get('/getBlogs', this.authController.getBlogs);
+
+    this.router.put(
+      '/',
+      [AuthMiddleware.validateJWT],
+      this.authController.update
+    );
+    this.router.delete(
+      '/',
+      [AuthMiddleware.validateJWT],
+      this.authController.delete
+    );
 
     return this.router;
   }
