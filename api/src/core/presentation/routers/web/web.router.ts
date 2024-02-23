@@ -24,7 +24,7 @@ export class WebRouter {
     this.router.get('/getBlogs', this.authController.getBlogs);
 
     this.router.delete(
-      '/blog',
+      '/blog/:blogId',
       [AuthMiddleware.validateJWT],
       this.authController.delete
     );

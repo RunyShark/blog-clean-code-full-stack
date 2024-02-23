@@ -1,5 +1,4 @@
 import { Request, Response } from 'express';
-
 import { BindMethods } from '@common/decorators';
 import { UserService } from './user.service';
 
@@ -12,8 +11,7 @@ export class UserController {
   }
 
   async delete(req: Request, res: Response) {
-    const { id } = req.params;
-    console.log(id);
-    res.send(await this.userService.delete(req.body));
+    const { userId } = req.params;
+    res.send(await this.userService.delete({ userId }));
   }
 }

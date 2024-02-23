@@ -1,14 +1,12 @@
 import { HttpAdapter } from '../../../../common/adapters/http/http.adapter';
 import { BlogMapper } from '../../../infrastructure/mappers';
-import { BlogDto } from '../../dto/web/blog.dto';
-
+import { DeleteBlogDto } from '../../dto';
 import { BlogEntity } from '../../entities';
 import { CustomError } from '../../errors/custom.error';
 import { GenericUseCase } from '../interface';
 
-interface ExecuteArgs {
+interface ExecuteArgs extends DeleteBlogDto {
   fetcher: HttpAdapter;
-  blogDto: BlogDto;
   token: string;
 }
 
@@ -20,9 +18,9 @@ interface ResponseApi {
 export class CreateBlogUseCase
   implements GenericUseCase<ExecuteArgs, BlogEntity>
 {
-  async execute({ fetcher, blogDto, token }: ExecuteArgs): Promise<BlogEntity> {
+  async execute({ fetcher, blogId, token }: ExecuteArgs): Promise<BlogEntity> {
     try {
-      const response = await fetcher.delete<ResponseApi>('web/create', {
+      const response = await fetcher.delete<ResponseApi>(`web/blog/${blogId}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

@@ -5,7 +5,7 @@ export class DeleteBlogDto {
 
   static create(object: Record<string, any>): [CustomError?, DeleteBlogDto?] {
     const { blogId } = object;
-
+    console.log('blogId', blogId);
     if (!blogId) return [CustomError.badRequest('blogId id is required')];
 
     return [, new DeleteBlogDto(blogId)];
