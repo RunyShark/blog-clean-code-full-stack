@@ -1,4 +1,4 @@
-export interface UpdateProfileDto {
+export interface UpdateUserDto {
   email: string;
   password: string;
   profile: Partial<ProfileDto>;

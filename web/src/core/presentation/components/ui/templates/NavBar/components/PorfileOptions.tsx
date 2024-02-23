@@ -1,4 +1,4 @@
-import { IoLogOut, IoPerson, IoSettings } from 'react-icons/io5';
+import { IoLogOut, IoPerson } from 'react-icons/io5';
 import { Link, useNavigate } from 'react-router-dom';
 import { Text } from '../../../atoms';
 import { useAppDispatch } from '../../../../../store';
@@ -9,10 +9,7 @@ interface ProfileOptionsProps {
   onOpenModal: () => void;
 }
 
-export const ProfileOptions: React.FC<ProfileOptionsProps> = ({
-  onClose,
-  onOpenModal,
-}) => {
+export const ProfileOptions: React.FC<ProfileOptionsProps> = ({ onClose }) => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const handlerLogout = () => {
@@ -23,13 +20,6 @@ export const ProfileOptions: React.FC<ProfileOptionsProps> = ({
   return (
     <>
       <div className="p-1">
-        <div
-          onClick={onOpenModal}
-          className="flex items-center gap-x-3 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
-        >
-          <IoSettings className="text-gray-800 dark:text-neutral-300" />
-          Opciones
-        </div>
         <Link
           onClick={onClose}
           to="/auth/cuenta"

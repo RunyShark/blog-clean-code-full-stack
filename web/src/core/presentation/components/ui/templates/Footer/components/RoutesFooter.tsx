@@ -17,7 +17,7 @@ export const RoutesFooter = () => (
     </div>
     <div>
       <Typography className="mb-6 text-sm font-semibold uppercase text-white">
-        Follow us
+        Follow
       </Typography>
       <ul className=" text-gray-400 font-medium">
         <li className="mb-4">

@@ -11,7 +11,7 @@ import {
   useAppDispatch,
   useAppSelector,
 } from '../../../../../store/hooks/index';
-
+import { Link } from 'react-router-dom';
 import { getByIdBlog } from '../../../../../store/slices/web/web-slice';
 import { useEffect, useState } from 'react';
 import { AddNewBlog } from '../../../../ui/molecules/addNewBlog';
@@ -19,6 +19,7 @@ import { IoClose } from 'react-icons/io5';
 import { InformationUserAuth } from '../../../../ui/molecules/InformationUserAuth';
 import nofilters from '../../../../../../../common/json/nofilters.json';
 import { webThunk } from '../../../../../store/slices/web/web-thunk';
+import { BlurColor2 } from '../../../../ui/atoms/BlurColor';
 
 export const HomePage = () => {
   const {
@@ -41,16 +42,14 @@ export const HomePage = () => {
 
   const currentBlock = (id: string) => dispatch(getByIdBlog(id));
 
-  const addNewPost = () => {
-    console.log('addNewPost', token);
-    setIsOpen(true);
-  };
+  const addNewPost = () => setIsOpen(true);
 
   const handlerCloseModal = () => setIsOpen(false);
 
   return (
     <section>
       <Header />
+      <BlurColor2 />
       <article className="screen flex flex-col gap-20">
         <div className="flex w-full justify-between">
           <Search />
@@ -64,12 +63,16 @@ export const HomePage = () => {
           {filteredBlogs.length ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-16 justify-items-center w-full pb-10">
               {filteredBlogs.map((blog) => (
-                <Card
-                  {...blog}
-                  key={blog.id}
-                  onClick={() => currentBlock(blog.id)}
+                <Link
                   to={`blog/${blog.title.split(' ').join('-')}`}
-                />
+                  key={blog.id}
+                >
+                  <Card
+                    {...blog}
+                    onClick={() => currentBlock(blog.id)}
+                    className="hover:scale-105"
+                  />
+                </Link>
               ))}
             </div>
           ) : (

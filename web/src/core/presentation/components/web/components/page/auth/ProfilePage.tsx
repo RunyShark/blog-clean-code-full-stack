@@ -1,24 +1,13 @@
 import React, { useState } from 'react';
-import {
-  Button,
-  Card,
-  Input,
-  LottieCustom,
-  Modal,
-  Text,
-  Title,
-  UploadPhoto,
-} from '../../../../ui';
+import { Button, Input, Modal, Text, Title, UploadPhoto } from '../../../../ui';
 import { useAppDispatch, useAppSelector } from '../../../../../store';
-import contentWriting from '../../../../../../../common/json/contentWriting.json';
-import { getByIdBlog } from '../../../../../store/slices/web/web-slice';
 import { useFormBlog } from '../../../../../hooks';
-import * as yup from 'yup';
 import { SubmitHandler } from 'react-hook-form';
 import { IoClose } from 'react-icons/io5';
 import { AddNewBlog } from '../../../../ui/molecules/addNewBlog';
 import { InformationUserAuth } from '../../../../ui/molecules/InformationUserAuth';
 import { UserPost, UserProfileHeader } from './components';
+import * as yup from 'yup';
 
 type Inputs = {
   email: string;
@@ -88,6 +77,10 @@ export const ProfilePage = () => {
     reset();
   };
 
+  const deleteAccount = () => {
+    console.log('delete account');
+  };
+
   const addNewPost = () => {
     setIsOpen(true);
   };
@@ -144,22 +137,6 @@ export const ProfilePage = () => {
                     useForm={register('email')}
                   />
                 </div>
-                <div className="sm:col-span-4">
-                  <Input
-                    label="Contraseña antigua"
-                    type="password"
-                    error={errors.password?.message}
-                    useForm={register('password')}
-                  />
-                </div>
-                <div className="sm:col-span-4">
-                  <Input
-                    label="Contraseña"
-                    type="password"
-                    error={errors.password?.message}
-                    useForm={register('password')}
-                  />
-                </div>
                 <div className="flex flex-col justify-end gap-x-2 w-full gap-4">
                   <Button
                     className="h-10"
@@ -167,6 +144,14 @@ export const ProfilePage = () => {
                     disabled={isLoadingUploadPhoto || loading}
                   >
                     Guardar
+                  </Button>
+                  <Button
+                    onClick={deleteAccount}
+                    className="h-10"
+                    variant="secondary"
+                    disabled={isLoadingUploadPhoto || loading}
+                  >
+                    Eliminar
                   </Button>
                 </div>
               </div>

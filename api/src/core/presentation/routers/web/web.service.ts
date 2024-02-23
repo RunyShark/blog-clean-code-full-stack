@@ -53,7 +53,6 @@ export class WebService {
   }
 
   async delete(dto: DeleteBlogDto) {
-    console.log('deleteBlogDto', dto);
     const [error, deleteBlogDto] = DeleteBlogDto.create(dto);
 
     if (error) return this.errorHandle(400, error);

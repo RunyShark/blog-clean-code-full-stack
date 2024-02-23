@@ -1,4 +1,5 @@
-import jwt from 'jwt-decode';
-import { jwtAdapterInfrastructure } from './jwt.adapter.infrastructure';
+import { jwtDecode } from 'jwt-decode';
 
-export const jwtAdapter = new jwtAdapterInfrastructure(jwt);
+export const JWT = {
+  decode: jwtDecode,
+};
