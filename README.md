@@ -2,7 +2,7 @@
   <img src="https://res.cloudinary.com/runyshark1/image/upload/v1707709938/yy0_oae3vv.gif" width="200" alt="Aether API](https://res.cloudinary.com/runyshark1/image/upload/v1707709938/yy0_oae3vv.gif)" />
 </p>
 
-# blog-clean-architecture React Next-14
+# blog-clean-architecture Full Stack Vite - React - Node 
 
 ## How to Run 🚀
 
