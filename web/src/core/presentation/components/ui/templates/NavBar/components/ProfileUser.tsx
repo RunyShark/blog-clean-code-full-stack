@@ -33,7 +33,7 @@ export const ProfileUser = () => {
         </button>
       </div>
       <div
-        className={`absolute hs-dropdown-menu  start-0 w-60 transition-[opacity,margin] duration z-10 bg-white rounded-xl shadow-[0_10px_40px_10px_rgba(0,0,0,0.08)] dark:bg-neutral-900 dark:shadow-[0_10px_40px_10px_rgba(0,0,0,0.2)] ${
+        className={`absolute hs-dropdown-menu right-3 w-60 transition-[opacity,margin] duration z-10 bg-white rounded-xl shadow-[0_10px_40px_10px_rgba(0,0,0,0.08)] dark:bg-neutral-900 dark:shadow-[0_10px_40px_10px_rgba(0,0,0,0.2)] ${
           isOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'
         }`}
       >

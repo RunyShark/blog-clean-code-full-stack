@@ -11,10 +11,12 @@ import { configureStore } from '@reduxjs/toolkit';
 import { core } from './slices/reducers';
 import thunk from 'redux-thunk';
 import { refreshTokenAndRehydrateStateMiddleware } from './middleware/refreshTokenAndRehydrateStateMiddleware';
+import AlertSlice from './slices/Alert/AlertSlice';
 
 export const store = configureStore({
   reducer: {
     core,
+    alert: AlertSlice,
   },
 
   middleware: (getDefaultMiddleware) =>
