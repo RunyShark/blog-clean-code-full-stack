@@ -49,6 +49,6 @@ export const router: Router = createBrowserRouter([
   },
   {
     path: '*',
-    element: <MainLayout />,
+    element: <Navigate to="/home" replace />,
   },
 ]);
