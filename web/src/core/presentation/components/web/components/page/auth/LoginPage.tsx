@@ -30,8 +30,8 @@ export const LoginPage = () => {
 
   return (
     <section className="h-full overflow-y-hidden">
-      <article className="flex flex-col md:flex-row w-full justify-between gap-20 relative min-h-[1000px]">
-        <div className="w-full min-h-[1000px]">
+      <article className="flex flex-col md:flex-row w-full justify-between gap-20 relative h-[1000px] ">
+        <div className="w-full h-full">
           <img
             className="w-full h-full object-cover"
             src={gifs[index]}

@@ -23,7 +23,7 @@ export const Input: React.FC<InputProps> = ({
   ...prop
 }) => (
   <div>
-    {label && <Text className="mb-3">{label}</Text>}
+    {label && <Text className="mb-3 capitalize">{label}</Text>}
 
     <div className="relative">
       <input
