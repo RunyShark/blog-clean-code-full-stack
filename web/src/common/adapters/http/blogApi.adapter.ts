@@ -3,6 +3,6 @@ import { AxiosAdapter } from './axios.adapter';
 
 export const blogFetcher = new AxiosAdapter(
   axios.create({
-    baseURL: `http://localhost:3000/api/v1/`,
+    baseURL: import.meta.env.VITE_API_URL,
   })
 );
