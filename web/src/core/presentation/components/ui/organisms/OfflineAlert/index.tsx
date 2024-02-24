@@ -13,7 +13,9 @@ export const OfflineAlert = () => {
   return (
     <div
       className={`border-l-8 border-yellow-400 bg-yellow-50 p-4  transition-all ${
-        internetConnection ? 'opacity-0 pointer-events-none' : 'opacity-100'
+        internetConnection
+          ? 'opacity-0 pointer-events-none hidden'
+          : 'opacity-100'
       }`}
     >
       <div className="flex">
