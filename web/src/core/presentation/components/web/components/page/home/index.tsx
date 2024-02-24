@@ -51,10 +51,10 @@ export const HomePage = () => {
       <Header />
       <BlurColor2 />
       <article className="screen flex flex-col gap-20">
-        <div className="flex w-full flex-col md:flex-row justify-between">
+        <div className="flex w-full flex-col md:flex-row justify-between gap-10">
           <Search />
           <div className="flex flex-col gap-4">
-            <Title fontSize="text-xl">Buscar blog</Title>
+            <Title fontSize="text-xl">Crear blog</Title>
             <Button onClick={addNewPost}>Postear Blog</Button>
           </div>
         </div>

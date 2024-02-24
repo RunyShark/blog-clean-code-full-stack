@@ -103,13 +103,13 @@ export const UserPost: React.FC<UserPostProps> = ({ onClick, blog }) => {
               ))}
             </div>
           ) : (
-            <div className="grid grid-cols-1  gap-16 justify-items-center w-full pb-10 h-64">
+            <div className="flex items-center justify-center w-full">
               <LottieCustom
                 lottiefile={contentWriting}
                 autoplay
                 loop={true}
-                width={300}
-                height={500}
+                width={200}
+                height={200}
               />
             </div>
           )}

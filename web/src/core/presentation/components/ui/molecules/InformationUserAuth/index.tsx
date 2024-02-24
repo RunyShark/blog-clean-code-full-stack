@@ -14,8 +14,8 @@ export const InformationUserAuth = () => {
         lottiefile={userAccount}
         autoplay
         loop={true}
-        width={400}
-        height={400}
+        width={300}
+        height={300}
       />
       <hr className="my-2 sm:mx-auto border-gray-700" />
 
