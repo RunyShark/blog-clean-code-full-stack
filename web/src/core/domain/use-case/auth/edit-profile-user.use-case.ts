@@ -1,14 +1,15 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { HttpAdapter } from '../../../../common/adapters/http/http.adapter';
 import { AuthMapper } from '../../../infrastructure/mappers/auth/auth.mapper';
-import { UpdateProfileDto } from '../../dto/auth/update-profile.user.dto';
+import { UpdateUserDto } from '../../dto';
+
 import { UserEntity } from '../../entities';
 import { CustomError } from '../../errors/custom.error';
 import { GenericUseCase } from '../interface';
 
 interface ExecuteArgs {
   fetcher: HttpAdapter;
-  updateProfileDto: Partial<UpdateProfileDto>;
+  updateProfileDto: Partial<UpdateUserDto>;
 }
 
 export class EditProfileUserUseCase
