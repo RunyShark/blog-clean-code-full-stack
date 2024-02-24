@@ -1,5 +1,5 @@
-import { Validators } from '@common/helper';
-import { CustomError } from '@domain/errors/custom.error';
+import { Validators } from '../../../../common/helper';
+import { CustomError } from '../../errors/custom.error';
 
 export class CreateUserDto {
   private constructor(

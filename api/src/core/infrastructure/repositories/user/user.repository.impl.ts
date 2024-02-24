@@ -1,8 +1,7 @@
-import { UserDataSource } from '@domain/datasources/user';
-import { UpdateUserDto, DeleteUserDto } from '@domain/dtos';
-import { UserUpdateEntity } from '@domain/entities';
-
-import { UserRepository } from '@domain/repositories';
+import { UserDataSource } from '../../../../core/domain/datasources/user';
+import { DeleteUserDto, UpdateUserDto } from '../../../../core/domain/dtos';
+import { UserUpdateEntity } from '../../../../core/domain/entities';
+import { UserRepository } from '../../../../core/domain/repositories/user/user.repository';
 
 export class UserRepositoryImpl implements UserRepository {
   constructor(private readonly userDataSource: UserDataSource) {}

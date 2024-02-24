@@ -1,5 +1,4 @@
-import { Validators } from '@common/helper';
-import { CustomError } from '@domain/errors/custom.error';
+import { CustomError } from '../../errors/custom.error';
 
 export class ResetPasswordUserDto {
   static create(object: {

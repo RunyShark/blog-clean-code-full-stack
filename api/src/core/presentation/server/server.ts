@@ -1,9 +1,11 @@
 import { Express, Router } from 'express';
-import { ServerAdapterDomain, envs } from '@common/adapter';
-import { AppMiddleware } from '@presentation/middleware';
-import { AppRoutes } from '@presentation/routers/app.router';
-import { prisma } from '@common/config';
 import cors from 'cors';
+
+import { AppMiddleware } from '../middleware';
+import { AppRoutes } from '../routers/app.router';
+import { prisma } from '../../../common/config';
+import { envs } from '../../../common/adapter/env-var';
+import { ServerAdapterDomain } from '../../../common/adapter/server/server.adapter.domain';
 
 interface ServerConfigurationOptionalProps {
   port: number;

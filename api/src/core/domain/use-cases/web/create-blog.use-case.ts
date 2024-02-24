@@ -1,7 +1,7 @@
-import { BlogDto } from '@domain/dtos/web/blog.dto';
-import { BlogEntity } from '@domain/entities/web/user.entity';
+import { BlogDto } from '../../dtos';
+import { BlogEntity } from '../../entities';
+import { BlogRepository } from '../../repositories';
 import { GenericUseCase } from '../interface';
-import { BlogRepository } from '@domain/repositories/web';
 
 export class CreateBlogUseCase implements GenericUseCase<BlogDto, BlogEntity> {
   constructor(private readonly blogRepository: BlogRepository) {}

@@ -1,10 +1,13 @@
-import { prisma } from '@common/config';
-import { BlogDataSource } from '@domain/datasources';
-import { UpdateBlogDto, DeleteBlogDto } from '@domain/dtos';
-import { BlogDto } from '@domain/dtos/web/blog.dto';
-import { BlogEntity } from '@domain/entities/web/user.entity';
-import { CustomError } from '@domain/errors/custom.error';
-import { BlogMapper } from '@infrastructure/mappers';
+import { prisma } from '../../../../common/config';
+import { BlogDataSource } from '../../../../core/domain/datasources';
+import {
+  UpdateBlogDto,
+  DeleteBlogDto,
+  BlogDto,
+} from '../../../../core/domain/dtos';
+import { BlogEntity } from '../../../../core/domain/entities';
+import { CustomError } from '../../../../core/domain/errors/custom.error';
+import { BlogMapper } from '../../mappers/web/blog.mapper';
 
 export class BlogDataSourcePostgres implements BlogDataSource {
   constructor(private readonly db: typeof prisma) {}

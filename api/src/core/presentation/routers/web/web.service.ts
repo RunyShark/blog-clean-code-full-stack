@@ -1,12 +1,19 @@
-import { BlogDto } from '@domain/dtos/web/blog.dto';
-import { BlogRepository } from '@domain/repositories/web';
-import { ApiResponse } from '@domain/rules';
-import { Catch } from '@common/decorators';
-import { CreateBlogUseCase, GetAllBlogsUseCase } from '@domain/use-cases';
-import { BlogEntity } from '@domain/entities/web/user.entity';
-import { DeleteBlogDto, UpdateBlogDto } from '@domain/dtos';
-import { UpdateBlogUseCase } from '@domain/use-cases/web/update-blog.use-case';
-import { DeleteBlogUseCase } from '@domain/use-cases/web/delete-blog.use-case';
+import { Catch } from '../../../../common/decorators/Catch.decorator';
+import {
+  BlogDto,
+  DeleteBlogDto,
+  UpdateBlogDto,
+} from '../../../../core/domain/dtos';
+import { BlogEntity } from '../../../../core/domain/entities';
+import { BlogRepository } from '../../../../core/domain/repositories';
+import { ApiResponse } from '../../../../core/domain/rules';
+import {
+  CreateBlogUseCase,
+  GetAllBlogsUseCase,
+} from '../../../../core/domain/use-cases';
+import { DeleteBlogUseCase } from '../../../../core/domain/use-cases/web/delete-blog.use-case';
+import { UpdateBlogUseCase } from '../../../../core/domain/use-cases/web/update-blog.use-case';
+
 @Catch
 export class WebService {
   constructor(private readonly blogRepository: BlogRepository) {}

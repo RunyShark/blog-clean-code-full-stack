@@ -1,14 +1,15 @@
-import { EncryptAdapterDomain } from '@common/adapter';
-import { prisma } from '@common/config';
-import { AuthDataSource } from '@domain/datasources/auth/auth.datasource';
+import { prisma } from '../../../../common/config';
+import { AuthDataSource } from '../../../../core/domain/datasources';
 import {
   CreateUserDto,
   LoginUserDto,
   ResetPasswordUserDto,
-} from '@domain/dtos/auth';
-import { UserEntity } from '@domain/entities';
-import { CustomError } from '@domain/errors/custom.error';
-import { AuthMapper } from '@infrastructure/mappers/auth/auth.mapper';
+} from '../../../../core/domain/dtos';
+import { UserEntity } from '../../../../core/domain/entities';
+import { CustomError } from '../../../../core/domain/errors/custom.error';
+
+import { EncryptAdapterDomain } from '../../../../common/adapter/encrypt/encrypt.adapter.domain';
+import { AuthMapper } from '../../mappers/auth/auth.mapper';
 
 export class AuthDataSourcePostgres implements AuthDataSource {
   constructor(

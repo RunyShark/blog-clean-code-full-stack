@@ -1,19 +1,20 @@
+import { Catch } from '../../../../common/decorators/Catch.decorator';
 import {
   CreateUserDto,
   LoginUserDto,
   RefreshTokenUserDto,
   ResetPasswordUserDto,
-} from '@domain/dtos/auth';
-import { AuthRepository } from '@domain/repositories';
-import { ApiResponse } from '@domain/rules';
+} from '../../../../core/domain/dtos';
+import { AuthRepository } from '../../../../core/domain/repositories';
+import { ApiResponse } from '../../../../core/domain/rules';
 import {
   CreateUserUseCase,
   LoginUserUseCase,
   RefreshTokenUseCase,
   ResetPasswordUseCase,
-} from '@domain/use-cases';
-import { UserResponse } from '@domain/use-cases/interface';
-import { Catch } from '@common/decorators';
+} from '../../../../core/domain/use-cases';
+import { UserResponse } from '../../../../core/domain/use-cases/interface';
+
 @Catch
 export class AuthService {
   constructor(private readonly authRepository: AuthRepository) {}

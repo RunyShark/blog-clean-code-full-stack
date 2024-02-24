@@ -1,7 +1,5 @@
-import { BlogDto } from '@domain/dtos/web/blog.dto';
-import { DeleteBlogDto } from '@domain/dtos/web/delete.blog.dto';
-import { UpdateBlogDto } from '@domain/dtos/web/update.blog.dto';
-import { BlogEntity } from '@domain/entities/web/user.entity';
+import { BlogDto, UpdateBlogDto, DeleteBlogDto } from '../../dtos';
+import { BlogEntity } from '../../entities';
 
 export abstract class BlogDataSource {
   abstract create(blogDto: BlogDto): Promise<BlogEntity>;

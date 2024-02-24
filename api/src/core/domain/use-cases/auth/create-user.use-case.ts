@@ -1,9 +1,10 @@
-import { CreateUserDto } from '@domain/dtos/auth';
+import { envs } from '../../../../common/adapter/env-var';
+import { jwtAdapter } from '../../../../common/adapter/jwt';
+import { CreateUserDto } from '../../dtos';
+import { UserEntity } from '../../entities';
+import { CustomError } from '../../errors/custom.error';
+import { AuthRepository } from '../../repositories';
 import { GenericUseCase, UserResponse } from '../interface';
-import { AuthRepository } from '@domain/repositories';
-import { UserEntity } from '@domain/entities';
-import { envs, jwtAdapter } from '@common/adapter';
-import { CustomError } from '@domain/errors/custom.error';
 
 export class CreateUserUseCase
   implements GenericUseCase<CreateUserDto, UserResponse>

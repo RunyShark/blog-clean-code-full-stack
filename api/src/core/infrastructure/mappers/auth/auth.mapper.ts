@@ -1,6 +1,6 @@
-import { date } from '@common/adapter';
-import { UserEntity } from '@domain/entities';
-import { CustomError } from '@domain/errors/custom.error';
+import { date } from '../../../../common/adapter/date';
+import { UserEntity } from '../../../../core/domain/entities';
+import { CustomError } from '../../../../core/domain/errors/custom.error';
 
 export class AuthMapper {
   static toEntity(blogDto: Record<string, any>): UserEntity {
