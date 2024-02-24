@@ -14,7 +14,7 @@ import { RefreshTokenUseCase } from '../../../domain/use-case';
 import { blogFetcher } from '../../../../common/adapters/http/blogApi.adapter';
 
 export const refreshTokenAndRehydrateStateMiddleware: Middleware =
-  ({ getState, dispatch }: MiddlewareAPI<Dispatch<AnyAction>>) =>
+  ({ dispatch }: MiddlewareAPI<Dispatch<AnyAction>>) =>
   (next: Dispatch<AnyAction>) =>
   async (action: AnyAction) => {
     if (action.type === REHYDRATE) {
