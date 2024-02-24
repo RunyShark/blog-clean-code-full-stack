@@ -48,13 +48,10 @@ export const RegisterPage = () => {
 
   return (
     <section className="h-full overflow-y-hidden">
-      <article className="flex w-full h-[10%] justify-between gap-20 relative">
+      <article className="flex flex-col md:flex-row w-full justify-between gap-20 relative h-[1000px]">
         <div className="w-full h-full">
           <img
-            className="w-full h-screen object-cover"
-            style={{
-              height: 'calc(100vh - 260px)',
-            }}
+            className="w-full h-full object-cover"
             src={gifs[index]}
             alt="login"
           />
