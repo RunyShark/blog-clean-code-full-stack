@@ -76,7 +76,7 @@ export const AddNewBlog: React.FC<Partial<AddNewBlogProps>> = ({
     <>
       <article className="flex w-full  justify-between gap-20 relative">
         <form
-          className="md:w-[500px]  h-full justify-center items-center flex flex-col"
+          className="md:w-[500px] h-full justify-center items-center flex flex-col"
           onSubmit={handleSubmit(onSubmit)}
         >
           <div className="p-4 w-full">
