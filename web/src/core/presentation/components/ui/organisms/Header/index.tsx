@@ -23,6 +23,7 @@ export const Header = () => {
           <Title className="tracking-tight inline font-semibold text-[2.5rem] lg:text-5xl">
             {gifs[index].title}{' '}
             <span className="tracking-tight inline font-semibold from-[#1c8eff] to-[#f249f8] text-[2.5rem] lg:text-5xl bg-clip-text text-transparent bg-gradient-to-b">
+              {' '}
               {gifs[index].gradient}
             </span>{' '}
             {gifs[index].nextGradiante}
