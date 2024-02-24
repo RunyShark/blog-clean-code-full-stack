@@ -1,6 +1,6 @@
-import { ResetPasswordUserDto } from '@domain/dtos/auth';
+import { ResetPasswordUserDto } from '../../dtos';
+import { AuthRepository } from '../../repositories';
 import { GenericUseCase } from '../interface';
-import { AuthRepository } from '@domain/repositories';
 
 export class ResetPasswordUseCase
   implements GenericUseCase<ResetPasswordUserDto, { token: string }>

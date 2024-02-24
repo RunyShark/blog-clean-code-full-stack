@@ -1,9 +1,5 @@
-import {
-  CreateUserDto,
-  LoginUserDto,
-  ResetPasswordUserDto,
-} from '@domain/dtos/auth';
-import { UserEntity } from '@domain/entities';
+import { CreateUserDto, LoginUserDto, ResetPasswordUserDto } from '../../dtos';
+import { UserEntity } from '../../entities';
 
 export abstract class AuthDataSource {
   abstract createAccount: (createUserDto: CreateUserDto) => Promise<UserEntity>;

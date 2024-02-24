@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
-import { BindMethods } from '@common/decorators';
 import { UserService } from './user.service';
+import { BindMethods } from '../../../../common/decorators/BindMethods.decorator';
 
 @BindMethods
 export class UserController {

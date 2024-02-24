@@ -1,5 +1,5 @@
-import { date } from '@common/adapter';
-import { BlogEntity } from '@domain/entities/web/user.entity';
+import { date } from '../../../../common/adapter/date/date.adapter';
+import { BlogEntity } from '../../../../core/domain/entities';
 
 export class BlogMapper {
   static toEntity(blogDto: Record<string, any>): BlogEntity {

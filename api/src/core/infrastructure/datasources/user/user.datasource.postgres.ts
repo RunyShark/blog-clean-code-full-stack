@@ -1,10 +1,10 @@
-import { EncryptAdapterDomain } from '@common/adapter';
-import { prisma } from '@common/config';
-import { UserDataSource } from '@domain/datasources/user';
-import { UpdateUserDto, DeleteUserDto } from '@domain/dtos';
-import { UserUpdateEntity } from '@domain/entities';
-import { CustomError } from '@domain/errors/custom.error';
-import { UserMapper } from '@infrastructure/mappers';
+import { prisma } from '../../../../common/config';
+import { UserDataSource } from '../../../../core/domain/datasources/user';
+import { UpdateUserDto, DeleteUserDto } from '../../../../core/domain/dtos';
+import { UserUpdateEntity } from '../../../../core/domain/entities';
+import { CustomError } from '../../../../core/domain/errors/custom.error';
+import { EncryptAdapterDomain } from '../../../../common/adapter/encrypt/encrypt.adapter.domain';
+import { UserMapper } from '../../mappers/user/user.mapper';
 
 export class UserDataSourcePostgres implements UserDataSource {
   constructor(

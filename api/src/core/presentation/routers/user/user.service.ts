@@ -1,10 +1,12 @@
-import { AuthRepository, UserRepository } from '@domain/repositories';
-import { Catch } from '@common/decorators';
-import { DeleteUserDto, UpdateUserDto } from '@domain/dtos';
-import { CustomError } from '@domain/errors/custom.error';
-import { DeleteUserUseCase, UpdateUserUseCase } from '@domain/use-cases';
-import { ApiResponse } from '@domain/rules';
-import { UserResponse } from '@domain/use-cases/interface';
+import { Catch } from '../../../../common/decorators/Catch.decorator';
+import { DeleteUserDto, UpdateUserDto } from '../../../../core/domain/dtos';
+import { UserRepository } from '../../../../core/domain/repositories';
+import { ApiResponse } from '../../../../core/domain/rules';
+import {
+  DeleteUserUseCase,
+  UpdateUserUseCase,
+} from '../../../../core/domain/use-cases';
+import { UserResponse } from '../../../../core/domain/use-cases/interface';
 
 @Catch
 export class UserService {

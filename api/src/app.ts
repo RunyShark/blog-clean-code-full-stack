@@ -1,5 +1,6 @@
-import { Server } from '@presentation/index';
-import { envs, expressServer } from './common';
+import { envs } from './common/adapter/env-var';
+import { expressServer } from './common/adapter/server';
+import { Server } from './core/presentation/server/server';
 
 (() => main())();
 

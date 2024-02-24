@@ -1,9 +1,10 @@
+import { envs } from '../../../../common/adapter/env-var';
+import { jwtAdapter } from '../../../../common/adapter/jwt';
+import { UpdateUserDto } from '../../dtos';
+import { UserUpdateEntity } from '../../entities';
+import { CustomError } from '../../errors/custom.error';
+import { UserRepository } from '../../repositories';
 import { GenericUseCase, UserResponse } from '../interface';
-import { UserRepository } from '@domain/repositories';
-import { UserUpdateEntity } from '@domain/entities';
-import { envs, jwtAdapter } from '@common/adapter';
-import { CustomError } from '@domain/errors/custom.error';
-import { UpdateUserDto } from '@domain/dtos';
 
 export class UpdateUserUseCase
   implements GenericUseCase<UpdateUserDto, UserResponse>

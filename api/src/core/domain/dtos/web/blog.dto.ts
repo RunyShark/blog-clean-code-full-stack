@@ -1,5 +1,6 @@
-import { Validators } from '@common/helper';
-import { CustomError } from '@domain/errors/custom.error';
+import { Validators } from '../../../../common/helper';
+import { CustomError } from '../../errors/custom.error';
+
 export class BlogDto {
   private constructor(
     public userId: string,

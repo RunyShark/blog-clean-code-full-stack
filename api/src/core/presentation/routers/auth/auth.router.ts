@@ -1,6 +1,6 @@
-import { Router, Request, Response } from 'express';
+import { Router } from 'express';
 import { AuthController } from './auth.controller';
-import { AuthMiddleware } from '@presentation/middleware';
+import { AuthMiddleware } from '../../middleware';
 
 export class AuthRouter {
   constructor(
