@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import { WebController } from './web.controller';
-import { AuthMiddleware } from '@presentation/middleware';
+import { AuthMiddleware } from '../../middleware';
 
 export class WebRouter {
   constructor(

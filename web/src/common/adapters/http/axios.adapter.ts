@@ -4,10 +4,10 @@ import { AxiosInstance, AxiosRequestConfig } from 'axios';
 export class AxiosAdapter implements HttpAdapter {
   constructor(private readonly axiosInstance: AxiosInstance) {}
 
-  async delete<T>(url: string, config?: AxiosRequestConfig): Promise<T> {
+  async delete<T>(url: string, options?: AxiosRequestConfig): Promise<T> {
     try {
       const { data: resultData } = await this.axiosInstance.delete<T>(url, {
-        ...config,
+        ...options,
       });
       return resultData;
     } catch (error) {

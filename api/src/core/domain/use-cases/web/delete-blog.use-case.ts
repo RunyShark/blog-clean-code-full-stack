@@ -1,6 +1,6 @@
+import { DeleteBlogDto } from '../../dtos';
+import { BlogRepository } from '../../repositories';
 import { GenericUseCase } from '../interface';
-import { BlogRepository } from '@domain/repositories';
-import { DeleteBlogDto } from '@domain/dtos';
 
 export class DeleteBlogUseCase
   implements GenericUseCase<DeleteBlogDto, boolean>

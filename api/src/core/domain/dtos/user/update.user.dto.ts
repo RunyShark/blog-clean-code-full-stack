@@ -1,4 +1,4 @@
-import { CustomError } from '@domain/errors/custom.error';
+import { CustomError } from '../../errors/custom.error';
 
 export class UpdateUserDto {
   private constructor(

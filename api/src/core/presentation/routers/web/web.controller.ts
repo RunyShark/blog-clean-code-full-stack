@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import { WebService } from './web.service';
-import { BindMethods } from '@common/decorators';
+import { BindMethods } from '../../../../common/decorators/BindMethods.decorator';
 
 @BindMethods
 export class WebController {

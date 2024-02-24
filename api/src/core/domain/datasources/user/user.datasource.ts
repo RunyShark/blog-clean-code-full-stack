@@ -1,6 +1,5 @@
-import { UpdateUserDto, DeleteUserDto } from '@domain/dtos';
-
-import { UserUpdateEntity } from '@domain/entities';
+import { UpdateUserDto, DeleteUserDto } from '../../dtos';
+import { UserUpdateEntity } from '../../entities';
 
 export abstract class UserDataSource {
   abstract update(updateUserDto: UpdateUserDto): Promise<UserUpdateEntity>;

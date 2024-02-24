@@ -1,11 +1,11 @@
-import { AuthDataSource } from '@domain/datasources/auth/auth.datasource';
+import { AuthDataSource } from '../../../../core/domain/datasources';
 import {
   CreateUserDto,
   LoginUserDto,
   ResetPasswordUserDto,
-} from '@domain/dtos/auth';
-import { UserEntity } from '@domain/entities';
-import { AuthRepository } from '@domain/repositories';
+} from '../../../../core/domain/dtos';
+import { UserEntity } from '../../../../core/domain/entities';
+import { AuthRepository } from '../../../../core/domain/repositories';
 
 export class AuthRepositoryImpl implements AuthRepository {
   constructor(private readonly authDataSource: AuthDataSource) {}

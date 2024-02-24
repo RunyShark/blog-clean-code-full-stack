@@ -1,5 +1,5 @@
-import { CustomError } from '@domain/errors/custom.error';
-import { ApiResponse } from '@domain/rules';
+import { CustomError } from '../../core/domain/errors/custom.error';
+import { ApiResponse } from '../../core/domain/rules';
 import { ValidPrototype } from './interfaces';
 
 export function Catch(constructor: Function) {

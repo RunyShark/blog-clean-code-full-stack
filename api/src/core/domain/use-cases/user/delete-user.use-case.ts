@@ -1,6 +1,6 @@
+import { DeleteUserDto } from '../../dtos';
+import { UserRepository } from '../../repositories';
 import { GenericUseCase } from '../interface';
-import { UserRepository } from '@domain/repositories';
-import { DeleteUserDto } from '@domain/dtos';
 
 export class DeleteUserUseCase
   implements GenericUseCase<DeleteUserDto, boolean>

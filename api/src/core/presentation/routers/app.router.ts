@@ -1,23 +1,24 @@
 import { Router } from 'express';
-import { AuthRouter } from './auth';
-import { WebRouter } from './web';
-import { AuthController } from './auth/auth.controller';
-import { WebController } from './web/web.controller';
-import { AuthService } from './auth/auth.service';
-import { WebService } from './web/web.service';
+import { encrypt } from '../../../common/adapter/encrypt';
+import { prisma } from '../../../common/config';
+
 import {
   AuthRepositoryImpl,
   BlogRepositoryImpl,
-} from '@infrastructure/repositories';
-import { AuthDataSourcePostgres } from '@infrastructure/datasources/auth';
-import { prisma } from '../../../common/config/db/prisma.service';
-import { BlogDataSourcePostgres } from '@infrastructure/datasources/web/blog.datasource.postgres';
-import { encrypt } from '@common/adapter';
-import { UserRouter } from './user';
+} from '../../../core/infrastructure/repositories';
+import { UserRepositoryImpl } from '../../../core/infrastructure/repositories/user';
+import { AuthRouter } from './auth/auth.router';
+import { AuthController } from './auth/auth.controller';
+import { AuthService } from './auth/auth.service';
+import { UserRouter } from './user/user.router';
 import { UserController } from './user/user.controller';
 import { UserService } from './user/user.service';
-import { UserRepositoryImpl } from '@infrastructure/repositories/user/user.repository.impl';
-import { UserDataSourcePostgres } from '@infrastructure/datasources/user';
+import { WebRouter } from './web/web.router';
+import { WebController } from './web/web.controller';
+import { WebService } from './web/web.service';
+import { AuthDataSourcePostgres } from '../../../core/infrastructure/datasources/auth/auth.datasource.postgres';
+import { UserDataSourcePostgres } from '../../../core/infrastructure/datasources/user/user.datasource.postgres';
+import { BlogDataSourcePostgres } from '../../../core/infrastructure/datasources/web/blog.datasource.postgres';
 
 export enum ValidRoutes {
   auth = 'auth',

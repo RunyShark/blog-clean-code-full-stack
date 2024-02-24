@@ -1,7 +1,7 @@
+import { UpdateBlogDto } from '../../dtos';
+import { BlogEntity } from '../../entities';
+import { BlogRepository } from '../../repositories';
 import { GenericUseCase } from '../interface';
-import { BlogRepository } from '@domain/repositories';
-import { BlogEntity } from '@domain/entities';
-import { UpdateBlogDto } from '@domain/dtos';
 
 export class UpdateBlogUseCase
   implements GenericUseCase<UpdateBlogDto, BlogEntity>

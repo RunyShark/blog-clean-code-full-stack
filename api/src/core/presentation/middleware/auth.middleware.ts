@@ -1,6 +1,7 @@
-import { envs, jwtAdapter } from '@common/adapter';
-import { CustomError } from '@domain/errors/custom.error';
 import { NextFunction, Request, Response } from 'express';
+import { envs } from '../../../common/adapter/env-var';
+import { jwtAdapter } from '../../../common/adapter/jwt';
+import { CustomError } from '../../../core/domain/errors/custom.error';
 
 export class AuthMiddleware {
   static validateJWT = async (
